@@ -44,3 +44,36 @@ rule haplotype_B_genome:
         config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_B.fasta'
     shell:
         "cat {input} > {output}"
+
+rule bwa_index_haplotype_A:
+    input:
+        config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta'
+    output:
+        [config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta' + ending for ending in ['.amb','.ann','.bwt','.pac','.sa']]
+    shell:
+        "bwa index {input}"
+
+rule bwa_single:
+    input:
+        ref=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
+        index=[config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta' + ending for ending in ['.amb','.ann','.bwt','.pac','.sa']],
+        forward=config['FASTQ-path'] + '/{sample}_1.fq.gz',
+        reverse=config['FASTQ-path'] + '/{sample}_2.fq.gz'
+    threads: 4
+    output:
+        temp(config['sam-path'] + '/{sample}.sam')
+    shell:
+        "bwa mem -t {threads} {input.ref} {input.forward} {input.reverse} | samtools view -h -F 4 > {output}"
+
+rule bam_single:
+    input:
+        config['sam-path'] + '/{sample}.sam'
+    threads: 1
+    output:
+        config['bam-path'] + '/{sample}.bam'
+    shell:
+        "samtools sort {input} > {output}"
+
+rule bam:
+    input:
+        [config['bam-path'] + '/' + sample + '.bam' for sample in get_samples()]
