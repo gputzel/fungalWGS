@@ -20,3 +20,27 @@ rule download_genome:
         config['SC5314-genome-path'] + '/C_albicans_SC5314.fasta'
     shell:
         'gzcat {input} > {output}'
+
+rule split_genome:
+    input:
+        config['SC5314-genome-path'] + '/C_albicans_SC5314.fasta'
+    output:
+        [config['SC5314-genome-path'] + '/C_albicans_SC5314.fasta.split/C_albicans_SC5314.id_' + chrom + '.fasta' for chrom in config['chromosomes']]
+    shell:
+        "seqkit split -i {input}"
+
+rule haplotype_A_genome:
+    input:
+        [config['SC5314-genome-path'] + '/C_albicans_SC5314.fasta.split/C_albicans_SC5314.id_' + chrom + '.fasta' for chrom in config['chromosomes_A']]
+    output:
+        config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta'
+    shell:
+        "cat {input} > {output}"
+
+rule haplotype_B_genome:
+    input:
+        [config['SC5314-genome-path'] + '/C_albicans_SC5314.fasta.split/C_albicans_SC5314.id_' + chrom + '.fasta' for chrom in config['chromosomes_B']]
+    output:
+        config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_B.fasta'
+    shell:
+        "cat {input} > {output}"
