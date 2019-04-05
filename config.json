@@ -1,0 +1,5 @@
+{
+    "FASTQ-path":"data/FASTQ",
+    "SC5314-genome-url":"http://www.candidagenome.org/download/sequence/C_albicans_SC5314/Assembly22/archive/C_albicans_SC5314_version_A22-s07-m01-r78_chromosomes.fasta.gz",
+    "SC5314-genome-path":"resources/Candida_SC5314_genome/FASTA"
+}
