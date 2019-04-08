@@ -8,6 +8,10 @@ def get_samples():
     samples,= glob_wildcards(config['FASTQ-path'] + '/{ID}_1.fq.gz')
     return [sample for sample in samples if not sample.startswith('._')]
 
+def get_samples_from_BAM():
+    samples,= glob_wildcards(config['bam-path'] + '/{ID}.bam')
+    return [sample for sample in samples if not sample.startswith('._')]
+
 rule list_samples:
     run:
         for sample in get_samples():
@@ -20,6 +24,22 @@ rule download_genome:
         config['SC5314-genome-path'] + '/C_albicans_SC5314.fasta'
     shell:
         'gzcat {input} > {output}'
+
+rule download_GFF:
+    input:
+        HTTP.remote(config['SC5314-GFF-url'],keep_local=False)
+    output:
+        config['SC5314-GFF-path'] + '/C_albicans_SC5314_features.gff'
+    shell:
+        'cp {input} {output}'
+
+rule remove_chrom_features:
+    input:
+        config['SC5314-GFF-path'] + '/C_albicans_SC5314_features.gff'
+    output:
+        config['SC5314-GFF-path'] + '/C_albicans_SC5314_features_no_chroms.gff'
+    shell:
+        'cat {input} | grep -v "C_albicans_SC5314	CGD	chromosome	1" > {output}'
 
 rule split_genome:
     input:
@@ -59,7 +79,7 @@ rule bwa_single:
         index=[config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta' + ending for ending in ['.amb','.ann','.bwt','.pac','.sa']],
         forward=config['FASTQ-path'] + '/{sample}_1.fq.gz',
         reverse=config['FASTQ-path'] + '/{sample}_2.fq.gz'
-    threads: 4
+    threads: 8
     output:
         temp(config['sam-path'] + '/{sample}.sam')
     shell:
@@ -77,3 +97,16 @@ rule bam_single:
 rule bam:
     input:
         [config['bam-path'] + '/' + sample + '.bam' for sample in get_samples()]
+
+rule index_bam_single:
+    input:
+        config['bam-path'] + '/{sample}.bam'
+    output:
+        config['bam-path'] + '/{sample}.bam.bai'
+    shell:
+        "samtools index {input}"
+
+rule index_bam:
+    input:
+        [config['bam-path'] + '/' + sample + '.bam.bai' for sample in get_samples_from_BAM()]
+
