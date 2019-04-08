@@ -8,5 +8,6 @@
     "chromosomes_A":["Ca22chr1A_C_albicans_SC5314","Ca22chr2A_C_albicans_SC5314","Ca22chr3A_C_albicans_SC5314","Ca22chr4A_C_albicans_SC5314","Ca22chr5A_C_albicans_SC5314","Ca22chr6A_C_albicans_SC5314","Ca22chr7A_C_albicans_SC5314","Ca22chrM_C_albicans_SC5314","Ca22chrRA_C_albicans_SC5314"],
     "chromosomes_B":["Ca22chr1B_C_albicans_SC5314","Ca22chr2B_C_albicans_SC5314","Ca22chr3B_C_albicans_SC5314","Ca22chr4B_C_albicans_SC5314","Ca22chr5B_C_albicans_SC5314","Ca22chr6B_C_albicans_SC5314","Ca22chr7B_C_albicans_SC5314","Ca22chrRB_C_albicans_SC5314"],
     "sam-path":"output/Candida_sam",
-    "bam-path":"output/Candida_bam"
+    "bam-path":"output/Candida_bam",
+    "known-snps-url":"http://www.candidagenome.org/download/gff/C_albicans_SC5314/Assembly22/A22_Jones_PMID_15123810_Polymorphisms.vcf"
 }

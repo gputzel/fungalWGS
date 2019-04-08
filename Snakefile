@@ -110,3 +110,10 @@ rule index_bam:
     input:
         [config['bam-path'] + '/' + sample + '.bam.bai' for sample in get_samples_from_BAM()]
 
+rule get_known_snps:
+    input:
+        HTTP.remote(config['known-snps-url'],keep_local=False)
+    output:
+        "resources/Candida_SC5314_genome/VCF/A22_Jones_PMID_15123810_Polymorphisms.vcf"
+    shell:
+        "cp {input} {output}"
