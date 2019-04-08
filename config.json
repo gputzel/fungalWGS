@@ -9,5 +9,6 @@
     "chromosomes_B":["Ca22chr1B_C_albicans_SC5314","Ca22chr2B_C_albicans_SC5314","Ca22chr3B_C_albicans_SC5314","Ca22chr4B_C_albicans_SC5314","Ca22chr5B_C_albicans_SC5314","Ca22chr6B_C_albicans_SC5314","Ca22chr7B_C_albicans_SC5314","Ca22chrRB_C_albicans_SC5314"],
     "sam-path":"output/Candida_sam",
     "bam-path":"output/Candida_bam",
+    "bam-markdups-path":"output/Candida_bam_markdups",
     "known-snps-url":"http://www.candidagenome.org/download/gff/C_albicans_SC5314/Assembly22/A22_Jones_PMID_15123810_Polymorphisms.vcf"
 }

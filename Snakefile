@@ -117,3 +117,19 @@ rule get_known_snps:
         "resources/Candida_SC5314_genome/VCF/A22_Jones_PMID_15123810_Polymorphisms.vcf"
     shell:
         "cp {input} {output}"
+
+rule mark_duplicates_single:
+    input:
+        config['bam-path'] + '/{sample}.bam'
+    output:
+        bam=config['bam-markdups-path'] + '/{sample}.bam',
+        metrics=config['bam-markdups-path'] + '/mark-duplicates-metrics/{sample}-metrics.txt'
+    shell:
+        "gatk MarkDuplicates --INPUT {input} --OUTPUT {output.bam} " +
+            "--METRICS_FILE {output.metrics} --VALIDATION_STRINGENCY SILENT " +
+            "--OPTICAL_DUPLICATE_PIXEL_DISTANCE 2500 " +
+            '--ASSUME_SORT_ORDER "coordinate" '
+
+rule mark_duplicates:
+    input:
+        [config['bam-markdups-path'] + '/' + sample + '.bam' for sample in get_samples_from_BAM()]
