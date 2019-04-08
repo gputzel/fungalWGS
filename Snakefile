@@ -141,3 +141,11 @@ rule reference_index:
         config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta.fai'
     shell:
         "samtools faidx {input}"
+
+rule dictionary_reference:
+    input:
+        config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta'
+    output:
+        config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.dict'
+    shell:
+        "gatk CreateSequenceDictionary -R {input}"
