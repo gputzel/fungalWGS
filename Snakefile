@@ -133,3 +133,11 @@ rule mark_duplicates_single:
 rule mark_duplicates:
     input:
         [config['bam-markdups-path'] + '/' + sample + '.bam' for sample in get_samples_from_BAM()]
+
+rule reference_index:
+    input:
+        config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta'
+    output:
+        config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta.fai'
+    shell:
+        "samtools faidx {input}"
