@@ -195,3 +195,16 @@ rule apply_bqsr_single:
 rule apply_bqsr:
     input:
         [config['bam-recalibrated-path'] + '/' + sample + '.bam' for sample in get_samples_from_BAM()]
+
+rule gvcf_single:
+    input:
+        reference=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
+        bam=config['bam-recalibrated-path'] + '/{sample}.bam'
+    output:
+        config["gvcf-path"] + "/{sample}.g.vcf"
+    shell:
+        'gatk HaplotypeCaller -I {input.bam} -R {input.reference} -O {output} -ERC GVCF'
+
+rule gvcf:
+    input:
+        [config["gvcf-path"] + "/" + sample + ".g.vcf" for sample in get_samples()]
