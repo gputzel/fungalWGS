@@ -149,3 +149,49 @@ rule dictionary_reference:
         config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.dict'
     shell:
         "gatk CreateSequenceDictionary -R {input}"
+
+rule add_read_groups_single:
+    input:
+        config['bam-markdups-path'] + '/{sample}.bam'
+    output:
+        config['bam-readgroups-path'] + '/{sample}.bam'
+    shell:
+        'gatk AddOrReplaceReadGroups -I {input} -O {output} -LB "{wildcards.sample}" -PL "illumina" -SM "{wildcards.sample}" -PU "{wildcards.sample}"'
+
+rule add_read_groups:
+    input:
+        [config['bam-readgroups-path'] + '/' + sample + '.bam' for sample in get_samples_from_BAM()]
+
+rule base_recalibrate_single:
+    input:
+        index=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta.fai',
+        dictionary=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.dict',
+        reference=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
+        bam=config['bam-readgroups-path'] + '/{sample}.bam',
+        vcf="resources/Candida_SC5314_genome/VCF/A22_Jones_PMID_15123810_Polymorphisms.vcf"
+    output:
+        bqsr=config['bam-readgroups-path'] + '/bqsr-fits/bqsr-{sample}.txt'
+    shell:
+        'gatk BaseRecalibrator -R {input.reference} -I {input.bam} ' +
+            "--use-original-qualities -O {output.bqsr} " +
+            "--known-sites {input.vcf}"
+
+rule base_recalibrate:
+    input:
+        [config['bam-readgroups-path'] + '/bqsr-fits/bqsr-' + sample + '.txt' for sample in get_samples_from_BAM()]
+
+rule apply_bqsr_single:
+    input:
+        reference=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
+        bam=config['bam-readgroups-path'] + '/{sample}.bam',
+        bqsr=config['bam-readgroups-path'] + '/bqsr-fits/bqsr-{sample}.txt'
+    output:
+        bam=config['bam-recalibrated-path'] + '/{sample}.bam'
+    shell:
+        'gatk ApplyBQSR -R {input.reference} -bqsr {input.bqsr} -I {input.bam} -O {output.bam} ' +
+            "--static-quantized-quals 10 --static-quantized-quals 20 " +
+            "--static-quantized-quals 30 --add-output-sam-program-record --create-output-bam-md5 --use-original-qualities"
+
+rule apply_bqsr:
+    input:
+        [config['bam-recalibrated-path'] + '/' + sample + '.bam' for sample in get_samples_from_BAM()]
