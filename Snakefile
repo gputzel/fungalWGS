@@ -123,6 +123,8 @@ rule get_known_snps:
         "cp {input} {output}"
 
 rule mark_duplicates_single:
+    conda:
+        "envs/gatk4.yml"
     input:
         config['bam-path'] + '/{sample}.bam'
     output:
@@ -147,6 +149,8 @@ rule reference_index:
         "samtools faidx {input}"
 
 rule dictionary_reference:
+    conda:
+        "envs/gatk4.yml"
     input:
         config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta'
     output:
@@ -155,6 +159,8 @@ rule dictionary_reference:
         "gatk CreateSequenceDictionary -R {input}"
 
 rule add_read_groups_single:
+    conda:
+        "envs/gatk4.yml"
     input:
         config['bam-markdups-path'] + '/{sample}.bam'
     output:
@@ -167,6 +173,8 @@ rule add_read_groups:
         [config['bam-readgroups-path'] + '/' + sample + '.bam' for sample in get_samples_from_BAM()]
 
 rule base_recalibrate_single:
+    conda:
+        "envs/gatk4.yml"
     input:
         index=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta.fai',
         dictionary=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.dict',
@@ -185,6 +193,8 @@ rule base_recalibrate:
         [config['bam-readgroups-path'] + '/bqsr-fits/bqsr-' + sample + '.txt' for sample in get_samples_from_BAM()]
 
 rule apply_bqsr_single:
+    conda:
+        "envs/gatk4.yml"
     input:
         reference=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
         bam=config['bam-readgroups-path'] + '/{sample}.bam',
@@ -201,6 +211,8 @@ rule apply_bqsr:
         [config['bam-recalibrated-path'] + '/' + sample + '.bam' for sample in get_samples_from_BAM()]
 
 rule gvcf_single:
+    conda:
+        "envs/gatk4.yml"
     input:
         reference=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
         bam=config['bam-recalibrated-path'] + '/{sample}.bam'
@@ -214,6 +226,8 @@ rule gvcf:
         [config["gvcf-path"] + "/" + sample + ".g.vcf" for sample in get_samples_from_BAM()]
 
 rule combine_gvcfs:
+    conda:
+        "envs/gatk4.yml"
     input:
         c_albicans_list="sample_data/candida_albicans_samples.txt",
         reference=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
@@ -226,6 +240,8 @@ rule combine_gvcfs:
             " -O {output}"
 
 rule combined_vcf:
+    conda:
+        "envs/gatk4.yml"
     input:
         reference=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
         gvcf=config["gvcf-combined-path"] + "/combined.g.vcf"
@@ -277,6 +293,8 @@ rule all_gene_bam:
         ["output/gene_sequences/" + gene + "/" + sample + ".bam.bai" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
 
 rule gene_interval_vcf:
+    conda:
+        "envs/gatk4.yml"
     input:
         ref=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
         vcf="output/Candida_albicans_VCF/combined.vcf"
@@ -310,6 +328,8 @@ rule all_trimmed_vcf:
         ["output/gene_sequences_trimmed_vcf/" + gene + "/" + sample + ".vcf" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
 
 rule exclude_non_variants:
+    conda:
+        "envs/gatk4.yml"
     input:
         ref=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
         vcf="output/gene_sequences_trimmed_vcf/{gene}/{sample}.vcf"
