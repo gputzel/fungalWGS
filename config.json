@@ -13,5 +13,7 @@
     "bam-readgroups-path":"output/Candida_bam_readgroups",
     "bam-recalibrated-path":"output/Candida_bam_recalibrated",
     "known-snps-url":"http://www.candidagenome.org/download/gff/C_albicans_SC5314/Assembly22/A22_Jones_PMID_15123810_Polymorphisms.vcf",
-    "gvcf-path":"output/Candida_GVCF"
+    "gvcf-path":"output/Candida_GVCF",
+    "gvcf-combined-path":"output/Candida_GVCF_combined",
+    "vcf-path":"output/Candida_albicans_VCF"
 }

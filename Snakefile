@@ -12,6 +12,10 @@ def get_samples_from_BAM():
     samples,= glob_wildcards(config['bam-path'] + '/{ID}.bam')
     return [sample for sample in samples if not sample.startswith('._')]
 
+def get_candida_albicans_samples():
+    with open('sample_data/candida_albicans_samples.txt') as fi:
+        return [l.rstrip('\n') for l in fi.readlines()]
+
 rule list_samples:
     run:
         for sample in get_samples():
@@ -208,3 +212,32 @@ rule gvcf_single:
 rule gvcf:
     input:
         [config["gvcf-path"] + "/" + sample + ".g.vcf" for sample in get_samples_from_BAM()]
+
+rule combine_gvcfs:
+    input:
+        c_albicans_list="sample_data/candida_albicans_samples.txt",
+        reference=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
+        gvcfs=[config["gvcf-path"] + "/" + sample + ".g.vcf" for sample in get_samples_from_BAM()]
+    output:
+        config["gvcf-combined-path"] + "/combined.g.vcf"
+    shell:
+        'gatk CombineGVCFs --reference {input.reference} ' +
+            " ".join(['-V ' + config["gvcf-path"] + "/" + sample + ".g.vcf " for sample in get_candida_albicans_samples()]) +
+            " -O {output}"
+
+rule combined_vcf:
+    input:
+        reference=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
+        gvcf=config["gvcf-combined-path"] + "/combined.g.vcf"
+    output:
+        config["vcf-path"] + "/combined.vcf"
+    shell:
+        "gatk GenotypeGVCFs -R {input.reference} -V {input.gvcf} -O {output}"
+
+rule zip:
+    input:
+        config["vcf-path"] + "/combined.vcf"
+    output:
+        config["vcf-path"] + "/combined.vcf.gz"
+    shell:
+        "bgzip -c {input} > {output}"
