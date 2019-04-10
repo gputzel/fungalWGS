@@ -207,4 +207,4 @@ rule gvcf_single:
 
 rule gvcf:
     input:
-        [config["gvcf-path"] + "/" + sample + ".g.vcf" for sample in get_samples()]
+        [config["gvcf-path"] + "/" + sample + ".g.vcf" for sample in get_samples_from_BAM()]
