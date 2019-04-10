@@ -241,3 +241,11 @@ rule zip:
         config["vcf-path"] + "/combined.vcf.gz"
     shell:
         "bgzip -c {input} > {output}"
+
+rule tabix_index:
+    input:
+        config["vcf-path"] + "/combined.vcf.gz"
+    output:
+        config["vcf-path"] + "/combined.vcf.gz.tbi"
+    shell:
+        "tabix {input}"
