@@ -22,6 +22,12 @@
             "start":726514,
             "end":727329,
             "strand":"-"
+        },
+        "EFG1":{
+            "chrom":"Ca22chrRA_C_albicans_SC5314",
+            "start":1723489,
+            "end":1725146,
+            "strand":"-"
         }
     },
     "hapcut-path":"bin/hapcut"
