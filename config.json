@@ -23,5 +23,6 @@
             "end":727329,
             "strand":"-"
         }
-    }
+    },
+    "hapcut-path":"bin/hapcut"
 }

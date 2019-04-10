@@ -261,6 +261,146 @@ rule gene_interval_bam:
         start = str(config["genes"][gene]["start"]) 
         end = str(config["genes"][gene]["end"]) 
         interval = chrom + ":" + start + "-" + end
-        print("Interval = ", interval)
         cmd = "samtools view -bh {input} " + interval + " > {output}"
         shell(cmd)
+
+rule gene_interval_bam_index:
+    input:
+        "output/gene_sequences/{gene}/{sample}.bam"
+    output:
+        "output/gene_sequences/{gene}/{sample}.bam.bai"
+    shell:
+        "samtools index {input}"
+
+rule all_gene_bam:
+    input:
+        ["output/gene_sequences/" + gene + "/" + sample + ".bam.bai" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
+
+rule gene_interval_vcf:
+    input:
+        ref=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
+        vcf="output/Candida_albicans_VCF/combined.vcf"
+    output:
+        "output/gene_sequences/{gene}/{sample}.vcf"
+    run:
+        gene = wildcards.gene
+        sample = wildcards.sample
+        chrom = config["genes"][gene]["chrom"]
+        start = str(config["genes"][gene]["start"]) 
+        end = str(config["genes"][gene]["end"]) 
+        interval = chrom + ":" + start + "-" + end
+        cmd = "gatk SelectVariants -R {input.ref} -V {input.vcf} -sn " + sample + " -O {output} -L " + interval
+        shell(cmd)
+
+rule all_gene_vcf:
+    input:
+        ["output/gene_sequences/" + gene + "/" + sample + ".vcf" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
+
+#extractHAIRS doesn't like it where you have more than two alleles - even if only two of them occur in each sample!
+rule trim_gene_vcf:
+    input:
+        "output/gene_sequences/{gene}/{sample}.vcf"
+    output:
+        "output/gene_sequences_trimmed_vcf/{gene}/{sample}.vcf"
+    shell:
+        "bcftools view --trim-alt-alleles {input} > {output}"
+
+rule all_trimmed_vcf:
+    input:
+        ["output/gene_sequences_trimmed_vcf/" + gene + "/" + sample + ".vcf" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
+
+rule exclude_non_variants:
+    input:
+        ref=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
+        vcf="output/gene_sequences_trimmed_vcf/{gene}/{sample}.vcf"
+    output:
+        "output/gene_sequences_trimmed_vcf_exclude-non-variant/{gene}/{sample}.vcf"
+    shell:
+        "gatk SelectVariants -R {input.ref} -V {input.vcf} --exclude-non-variants -O {output}"
+
+rule all_exclude_non_variant_vcf:
+    input:
+        ["output/gene_sequences_trimmed_vcf_exclude-non-variant/" + gene + "/" + sample + ".vcf" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
+
+rule fragment_file:
+    input:
+        bam="output/gene_sequences/{gene}/{sample}.bam",
+        vcf="output/gene_sequences_trimmed_vcf_exclude-non-variant/{gene}/{sample}.vcf"
+    output:
+        "output/gene_sequences/{gene}/{sample}_fragment_file"
+    shell:
+        config["hapcut-path"] + "/extractHAIRS --bam {input.bam} --VCF {input.vcf} --out {output}"
+
+rule hapcut:
+    input:
+        fragment="output/gene_sequences/{gene}/{sample}_fragment_file",
+        vcf="output/gene_sequences_trimmed_vcf_exclude-non-variant/{gene}/{sample}.vcf"
+    output:
+        "output/gene_sequences/{gene}/{sample}_haplocut_output"
+    shell:
+        config["hapcut-path"] + "/HAPCUT2 --fragments {input.fragment} --vcf {input.vcf} --output {output}"
+
+rule phased_vcf:
+    conda:
+        "envs/fgbio.yml"
+    input:
+        hapcut="output/gene_sequences/{gene}/{sample}_haplocut_output",
+        vcf="output/gene_sequences_trimmed_vcf_exclude-non-variant/{gene}/{sample}.vcf"
+    output:
+        "output/gene_sequences_phased_vcf/{gene}/{sample}.vcf"
+    shell:
+        "fgbio HapCutToVcf -i {input.hapcut} -v {input.vcf} -o {output}" 
+
+rule phased_vcf_zip:
+    input:
+        "output/gene_sequences_phased_vcf/{gene}/{sample}.vcf"
+    output:
+        "output/gene_sequences_phased_vcf/{gene}/{sample}.vcf.gz"
+    shell:
+        "bgzip -c {input} > {output}"
+
+rule phased_vcf_index:
+    input:
+        "output/gene_sequences_phased_vcf/{gene}/{sample}.vcf.gz"
+    output:
+        "output/gene_sequences_phased_vcf/{gene}/{sample}.vcf.gz.tbi"
+    shell:
+        "tabix {input}"
+
+rule haplotypes_full:
+    input:
+        ref=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
+        vcf="output/gene_sequences_phased_vcf/{gene}/{sample}.vcf.gz",
+        index="output/gene_sequences_phased_vcf/{gene}/{sample}.vcf.gz.tbi"
+    output:
+        "output/haplotype_sequences_full/{gene}/haplotype_{hap}/{sample}.fasta"
+    shell:
+        'bcftools consensus -s {wildcards.sample} -H {wildcards.hap} ' + 
+        '-f {input.ref} {input.vcf} > {output}'
+
+rule haplotypes:
+    input:
+        "output/haplotype_sequences_full/{gene}/haplotype_{hap}/{sample}.fasta"
+    output:
+        "output/haplotype_sequences/{gene}/haplotype_{hap}/{sample}.fasta"
+    run:
+        gene = wildcards.gene
+        sample = wildcards.sample
+        chrom = config["genes"][gene]["chrom"]
+        start = str(config["genes"][gene]["start"]) 
+        end = str(config["genes"][gene]["end"]) 
+        interval = chrom + ":" + start + "-" + end
+        cmd = "samtools faidx {input} " + interval + ' | seqkit replace -p ".*" -r "{wildcards.sample}-hap-{wildcards.hap}" > {output}'
+        shell(cmd)
+
+rule all_haplotypes:
+    input:
+        ["output/haplotype_sequences/" + gene + "/haplotype_" + hap + "/" + sample + ".fasta" for gene in config["genes"].keys() for sample in get_candida_albicans_samples() for hap in ["1","2"]]
+
+rule combined_haplotype_fasta:
+    input:
+        ["output/haplotype_sequences/{gene}/haplotype_" + hap + "/" + sample + ".fasta" for sample in get_candida_albicans_samples() for hap in ["1","2"]]
+    output:
+        "output/haplotype_sequences/{gene}/combined.fasta"
+    shell:
+        "cat {input} > {output}"
