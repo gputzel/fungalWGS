@@ -293,8 +293,6 @@ rule all_gene_bam:
         ["output/gene_sequences/" + gene + "/" + sample + ".bam.bai" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
 
 rule gene_interval_vcf:
-    conda:
-        "envs/gatk4.yml"
     input:
         ref=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
         vcf="output/Candida_albicans_VCF/combined.vcf"
