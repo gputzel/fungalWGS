@@ -249,3 +249,18 @@ rule tabix_index:
         config["vcf-path"] + "/combined.vcf.gz.tbi"
     shell:
         "tabix {input}"
+
+rule gene_interval_bam:
+    input:
+        "output/Candida_bam_recalibrated/{sample}.bam"
+    output:
+        "output/gene_sequences/{gene}/{sample}.bam"
+    run:
+        gene = wildcards.gene
+        chrom = config["genes"][gene]["chrom"]
+        start = str(config["genes"][gene]["start"]) 
+        end = str(config["genes"][gene]["end"]) 
+        interval = chrom + ":" + start + "-" + end
+        print("Interval = ", interval)
+        cmd = "samtools view -bh {input} " + interval + " > {output}"
+        shell(cmd)

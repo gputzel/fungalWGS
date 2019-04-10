@@ -15,5 +15,13 @@
     "known-snps-url":"http://www.candidagenome.org/download/gff/C_albicans_SC5314/Assembly22/A22_Jones_PMID_15123810_Polymorphisms.vcf",
     "gvcf-path":"output/Candida_GVCF",
     "gvcf-combined-path":"output/Candida_GVCF_combined",
-    "vcf-path":"output/Candida_albicans_VCF"
+    "vcf-path":"output/Candida_albicans_VCF",
+    "genes":{
+        "ECE1":{
+            "chrom":"Ca22chr4A_C_albicans_SC5314",
+            "start":726514,
+            "end":727329,
+            "strand":"-"
+        }
+    }
 }
