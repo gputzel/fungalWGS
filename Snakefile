@@ -422,3 +422,36 @@ rule combined_haplotype_fasta:
         "output/haplotype_sequences/{gene}/combined.fasta"
     shell:
         "cat {input} > {output}"
+
+rule sort_gff:
+    input:
+        "resources/Candida_SC5314_genome/GFF/C_albicans_SC5314_features_no_chroms.gff"
+    output:
+        "resources/Candida_SC5314_genome/GFF/C_albicans_SC5314_features_no_chroms_sorted.gff.gz"
+    shell:
+        """grep -v "^#" {input} | sort -k1,1 -k4,4n -k5,5n -t$'\t' | bgzip -c > {output}"""
+
+rule index_sorted_gff:
+    input:
+        "resources/Candida_SC5314_genome/GFF/C_albicans_SC5314_features_no_chroms_sorted.gff.gz"
+    output:
+        "resources/Candida_SC5314_genome/GFF/C_albicans_SC5314_features_no_chroms_sorted.gff.gz.tbi"
+    shell:
+        "tabix {input}"
+
+rule vep:
+    input:
+        gff_index="resources/Candida_SC5314_genome/GFF/C_albicans_SC5314_features_no_chroms_sorted.gff.gz.tbi",
+        gff="resources/Candida_SC5314_genome/GFF/C_albicans_SC5314_features_no_chroms_sorted.gff.gz",
+        vcf="output/gene_sequences_phased_vcf/{gene}/{sample}.vcf.gz",
+        vcf_index="output/gene_sequences_phased_vcf/{gene}/{sample}.vcf.gz.tbi",
+        ref=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta'
+    output:
+        vep="output/vep_output/{gene}/{sample}_vep",
+        html="output/vep_output/{gene}/{sample}_vep_summary.html"
+    shell:
+        """vep --species "Candida albicans" --gff {input.gff} --fasta {input.ref} --format vcf -i {input.vcf} -o {output.vep}"""
+
+rule all_vep:
+    input:
+        ["output/vep_output/" + gene + "/" + sample + "_vep" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
