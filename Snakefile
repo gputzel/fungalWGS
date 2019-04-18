@@ -18,8 +18,7 @@ else:
     sys.exit()
 
 def get_samples():
-    for sample in project["samples"].keys():
-        print(sample)
+    return [sample for sample in project["samples"].keys()]
 
 rule list_samples:
     run:
@@ -94,32 +93,56 @@ rule decompress_GFF:
 #    shell:
 #        "cat {input} > {output}"
 
-rule bwa_index_haplotype_A:
+rule bwa_index:
     input:
-        config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta'
+        "resources/" + projectName + "/genome.fasta"
     output:
-        [config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta' + ending for ending in ['.amb','.ann','.bwt','.pac','.sa']]
+        ["resources/" + projectName + "/genome.fasta" + ending for ending in ['.amb','.ann','.bwt','.pac','.sa']]
     shell:
         "bwa index {input}"
 
+def merged_FASTQ_forward_input(wildcards):
+    pairs = project["samples"][wildcards.sample]["FASTQ-pairs"]
+    return [p["forward"] for p in pairs]
+
+rule merged_FASTQ_forward:
+    input:
+        unpack(merged_FASTQ_forward_input)
+    output:
+        temp("output/" + projectName + "/FASTQ_merged/{sample}_R1.fastq.gz")
+    shell:
+        "cat {input} > {output}"
+
+def merged_FASTQ_reverse_input(wildcards):
+    pairs = project["samples"][wildcards.sample]["FASTQ-pairs"]
+    return [p["reverse"] for p in pairs]
+
+rule merged_FASTQ_reverse:
+    input:
+        unpack(merged_FASTQ_reverse_input)
+    output:
+        temp("output/" + projectName + "/FASTQ_merged/{sample}_R2.fastq.gz")
+    shell:
+        "cat {input} > {output}"
+
 rule bwa_single:
     input:
-        ref=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
-        index=[config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta' + ending for ending in ['.amb','.ann','.bwt','.pac','.sa']],
-        forward=config['FASTQ-path'] + '/{sample}_1.fq.gz',
-        reverse=config['FASTQ-path'] + '/{sample}_2.fq.gz'
-    threads: 8
+        ref="resources/" + projectName + "/genome.fasta",
+        index=["resources/" + projectName + "/genome.fasta" + ending for ending in ['.amb','.ann','.bwt','.pac','.sa']],
+        forward="output/" + projectName + "/FASTQ_merged/{sample}_R1.fastq.gz",
+        reverse="output/" + projectName + "/FASTQ_merged/{sample}_R2.fastq.gz"
+    threads: 4
     output:
-        temp(config['sam-path'] + '/{sample}.sam')
+        temp("output/" + projectName + "/SAM/{sample}.sam")
     shell:
         "bwa mem -t {threads} {input.ref} {input.forward} {input.reverse} | samtools view -h -F 4 > {output}"
 
 rule bam_single:
     input:
-        config['sam-path'] + '/{sample}.sam'
+        "output/" + projectName + "/SAM/{sample}.sam"
     threads: 1
     output:
-        config['bam-path'] + '/{sample}.bam'
+        "output/" + projectName + "/BAM/{sample}.bam"
     shell:
         "samtools sort {input} > {output}"
 
@@ -129,9 +152,9 @@ rule bam_single:
 
 rule index_bam_single:
     input:
-        config['bam-path'] + '/{sample}.bam'
+        "output/" + projectName + "/BAM/{sample}.bam"
     output:
-        config['bam-path'] + '/{sample}.bam.bai'
+        "output/" + projectName + "/BAM/{sample}.bam.bai"
     shell:
         "samtools index {input}"
 
