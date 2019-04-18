@@ -1,12 +1,29 @@
+import os
+import sys
+import json
 from snakemake.remote.HTTP import RemoteProvider as HTTPRemoteProvider
 from Bio.Seq import Seq
 HTTP = HTTPRemoteProvider()
 
 configfile: "config.json"
 
+projectName=os.environ.get("PROJECT",None)
+if projectName is not None:
+    project_config_file = "projects/" + projectName + ".json"
+    with open(project_config_file) as json_file:
+        project = json.load(json_file)
+else:
+    print("Please specify a project as a command line environment variable")
+    sys.exit()
+
+
 def get_samples():
-    samples,= glob_wildcards(config['FASTQ-path'] + '/{ID}_1.fq.gz')
-    return [sample for sample in samples if not sample.startswith('._')]
+    for sample in project["samples"].keys():
+        print(sample)
+
+#def get_samples():
+#    samples,= glob_wildcards(config['FASTQ-path'] + '/{ID}_1.fq.gz')
+#    return [sample for sample in samples if not sample.startswith('._')]
 
 def get_samples_from_BAM():
     samples,= glob_wildcards(config['bam-path'] + '/{ID}.bam')
