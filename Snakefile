@@ -13,17 +13,13 @@ if projectName is not None:
     with open(project_config_file) as json_file:
         project = json.load(json_file)
 else:
-    print("Please specify a project as a command line environment variable")
+    print("Please specify a project as a command line environment variable, as in:")
+    print('PROJECT="myproject" snakemake ...')
     sys.exit()
-
 
 def get_samples():
     for sample in project["samples"].keys():
         print(sample)
-
-#def get_samples():
-#    samples,= glob_wildcards(config['FASTQ-path'] + '/{ID}_1.fq.gz')
-#    return [sample for sample in samples if not sample.startswith('._')]
 
 def get_samples_from_BAM():
     samples,= glob_wildcards(config['bam-path'] + '/{ID}.bam')
@@ -39,12 +35,18 @@ rule list_samples:
             print(sample)
 
 rule download_genome:
-    input:
-        HTTP.remote(config['SC5314-genome-url'],keep_local=False)
     output:
-        config['SC5314-genome-path'] + '/C_albicans_SC5314.fasta'
+        "resources/" + projectName + "/genome.fasta.gz"
     shell:
-        'gzcat {input} > {output}'
+        'wget ' + project["genome-url"] + ' -O {output}'
+
+rule decompress_genome:
+    input:
+        "resources/" + projectName + "/genome.fasta.gz"
+    output:
+        "resources/" + projectName + "/genome.fasta"
+    shell:
+        "gzcat {input} > {output}"
 
 rule download_GFF:
     input:
@@ -115,9 +117,9 @@ rule bam_single:
     shell:
         "samtools sort {input} > {output}"
 
-rule bam:
-    input:
-        [config['bam-path'] + '/' + sample + '.bam' for sample in get_samples()]
+#rule bam:
+#    input:
+#        [config['bam-path'] + '/' + sample + '.bam' for sample in get_samples()]
 
 rule index_bam_single:
     input:
