@@ -41,12 +41,18 @@ rule decompress_genome:
         "gzcat {input} > {output}"
 
 rule download_GFF:
-    input:
-        HTTP.remote(config['SC5314-GFF-url'],keep_local=False)
     output:
-        config['SC5314-GFF-path'] + '/C_albicans_SC5314_features.gff'
+        "resources/" + projectName + "/annotation.gff"
     shell:
-        'cp {input} {output}'
+        'wget ' + project["GFF-url"] + ' -O {output}'
+
+#rule download_GFF:
+#    input:
+#        HTTP.remote(config['SC5314-GFF-url'],keep_local=False)
+#    output:
+#        config['SC5314-GFF-path'] + '/C_albicans_SC5314_features.gff'
+#    shell:
+#        'cp {input} {output}'
 
 rule remove_chrom_features:
     input:
@@ -121,9 +127,9 @@ rule index_bam_single:
     shell:
         "samtools index {input}"
 
-rule index_bam:
-    input:
-        [config['bam-path'] + '/' + sample + '.bam.bai' for sample in get_samples_from_BAM()]
+#rule index_bam:
+#    input:
+#        [config['bam-path'] + '/' + sample + '.bam.bai' for sample in get_samples_from_BAM()]
 
 rule get_known_snps:
     input:
@@ -147,9 +153,9 @@ rule mark_duplicates_single:
             "--OPTICAL_DUPLICATE_PIXEL_DISTANCE 2500 " +
             '--ASSUME_SORT_ORDER "coordinate" '
 
-rule mark_duplicates:
-    input:
-        [config['bam-markdups-path'] + '/' + sample + '.bam' for sample in get_samples_from_BAM()]
+#rule mark_duplicates:
+#    input:
+#        [config['bam-markdups-path'] + '/' + sample + '.bam' for sample in get_samples_from_BAM()]
 
 rule reference_index:
     input:
@@ -179,9 +185,9 @@ rule add_read_groups_single:
     shell:
         'gatk AddOrReplaceReadGroups -I {input} -O {output} -LB "{wildcards.sample}" -PL "illumina" -SM "{wildcards.sample}" -PU "{wildcards.sample}"'
 
-rule add_read_groups:
-    input:
-        [config['bam-readgroups-path'] + '/' + sample + '.bam' for sample in get_samples_from_BAM()]
+#rule add_read_groups:
+#    input:
+#        [config['bam-readgroups-path'] + '/' + sample + '.bam' for sample in get_samples_from_BAM()]
 
 rule base_recalibrate_single:
     conda:
@@ -199,9 +205,9 @@ rule base_recalibrate_single:
             "--use-original-qualities -O {output.bqsr} " +
             "--known-sites {input.vcf}"
 
-rule base_recalibrate:
-    input:
-        [config['bam-readgroups-path'] + '/bqsr-fits/bqsr-' + sample + '.txt' for sample in get_samples_from_BAM()]
+#rule base_recalibrate:
+#    input:
+#        [config['bam-readgroups-path'] + '/bqsr-fits/bqsr-' + sample + '.txt' for sample in get_samples_from_BAM()]
 
 rule apply_bqsr_single:
     conda:
@@ -217,9 +223,9 @@ rule apply_bqsr_single:
             "--static-quantized-quals 10 --static-quantized-quals 20 " +
             "--static-quantized-quals 30 --add-output-sam-program-record --create-output-bam-md5 --use-original-qualities"
 
-rule apply_bqsr:
-    input:
-        [config['bam-recalibrated-path'] + '/' + sample + '.bam' for sample in get_samples_from_BAM()]
+#rule apply_bqsr:
+#    input:
+#        [config['bam-recalibrated-path'] + '/' + sample + '.bam' for sample in get_samples_from_BAM()]
 
 rule gvcf_single:
     conda:
@@ -232,9 +238,9 @@ rule gvcf_single:
     shell:
         'gatk HaplotypeCaller -I {input.bam} -R {input.reference} -O {output} -ERC GVCF'
 
-rule gvcf:
-    input:
-        [config["gvcf-path"] + "/" + sample + ".g.vcf" for sample in get_samples_from_BAM()]
+#rule gvcf:
+#    input:
+#        [config["gvcf-path"] + "/" + sample + ".g.vcf" for sample in get_samples_from_BAM()]
 
 rule combine_gvcfs:
     conda:
@@ -319,9 +325,9 @@ rule gene_interval_vcf:
         cmd = "gatk SelectVariants -R {input.ref} -V {input.vcf} -sn " + sample + " -O {output} -L " + interval
         shell(cmd)
 
-rule all_gene_vcf:
-    input:
-        ["output/gene_sequences/" + gene + "/" + sample + ".vcf" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
+#rule all_gene_vcf:
+#    input:
+#        ["output/gene_sequences/" + gene + "/" + sample + ".vcf" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
 
 #extractHAIRS doesn't like it where you have more than two alleles - even if only two of them occur in each sample!
 rule trim_gene_vcf:
@@ -332,9 +338,9 @@ rule trim_gene_vcf:
     shell:
         "bcftools view --trim-alt-alleles {input} > {output}"
 
-rule all_trimmed_vcf:
-    input:
-        ["output/gene_sequences_trimmed_vcf/" + gene + "/" + sample + ".vcf" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
+#rule all_trimmed_vcf:
+#    input:
+#        ["output/gene_sequences_trimmed_vcf/" + gene + "/" + sample + ".vcf" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
 
 rule exclude_non_variants:
     conda:
@@ -347,9 +353,9 @@ rule exclude_non_variants:
     shell:
         "gatk SelectVariants -R {input.ref} -V {input.vcf} --exclude-non-variants -O {output}"
 
-rule all_exclude_non_variant_vcf:
-    input:
-        ["output/gene_sequences_trimmed_vcf_exclude-non-variant/" + gene + "/" + sample + ".vcf" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
+#rule all_exclude_non_variant_vcf:
+#    input:
+#        ["output/gene_sequences_trimmed_vcf_exclude-non-variant/" + gene + "/" + sample + ".vcf" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
 
 rule fragment_file:
     input:
@@ -422,9 +428,9 @@ rule haplotypes:
         cmd = "samtools faidx {input} " + interval + ' | seqkit replace -p ".*" -r "{wildcards.sample}-hap-{wildcards.hap}" > {output}'
         shell(cmd)
 
-rule all_haplotypes:
-    input:
-        ["output/haplotype_sequences/" + gene + "/haplotype_" + hap + "/" + sample + ".fasta" for gene in config["genes"].keys() for sample in get_candida_albicans_samples() for hap in ["1","2"]]
+#rule all_haplotypes:
+#    input:
+#        ["output/haplotype_sequences/" + gene + "/haplotype_" + hap + "/" + sample + ".fasta" for gene in config["genes"].keys() for sample in get_candida_albicans_samples() for hap in ["1","2"]]
 
 rule combined_haplotype_fasta:
     input:
@@ -463,6 +469,6 @@ rule vep:
     shell:
         """vep --species "Candida albicans" --gff {input.gff} --fasta {input.ref} --format vcf -i {input.vcf} -o {output.vep}"""
 
-rule all_vep:
-    input:
-        ["output/vep_output/" + gene + "/" + sample + "_vep" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
+#rule all_vep:
+#    input:
+#        ["output/vep_output/" + gene + "/" + sample + "_vep" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
