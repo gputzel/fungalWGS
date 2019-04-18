@@ -1,0 +1,29 @@
+{
+    "species":"Candida parapsilosis",
+    "samples":{
+        "CplD1":{
+            "FASTQ-pairs":[
+                {
+                    "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/CpID1/CpID1_FDMS190003291-1a_HY23FCCXY_L5_1.fq.gz",
+                    "reverse":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/CpID1/CpID1_FDMS190003291-1a_HY23FCCXY_L5_2.fq.gz"
+                }
+            ]
+        },
+        "RI0218A":{
+            "FASTQ-pairs":[
+                {
+                    "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0218A/RI0218A_FDMS190003295-1a_HWYTHCCXY_L7_1.fq.gz",
+                    "reverse":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0218A/RI0218A_FDMS190003295-1a_HWYTHCCXY_L7_2.fq.gz"
+                }
+            ]
+        },
+        "RI0096A":{
+            "FASTQ-pairs":[
+                {
+                    "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0096A/RI0096A_FDMS190003290-1a_HY23FCCXY_L5_1.fq.gz",
+                    "reverse":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0096A/RI0096A_FDMS190003290-1a_HY23FCCXY_L5_2.fq.gz"
+                }
+            ]
+        }
+    }
+}
