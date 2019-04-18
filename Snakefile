@@ -21,14 +21,6 @@ def get_samples():
     for sample in project["samples"].keys():
         print(sample)
 
-def get_samples_from_BAM():
-    samples,= glob_wildcards(config['bam-path'] + '/{ID}.bam')
-    return [sample for sample in samples if not sample.startswith('._')]
-
-def get_candida_albicans_samples():
-    with open('sample_data/candida_albicans_samples.txt') as fi:
-        return [l.rstrip('\n') for l in fi.readlines()]
-
 rule list_samples:
     run:
         for sample in get_samples():
