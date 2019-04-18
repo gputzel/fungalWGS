@@ -42,9 +42,17 @@ rule decompress_genome:
 
 rule download_GFF:
     output:
-        "resources/" + projectName + "/annotation.gff"
+        "resources/" + projectName + "/annotation.gff.gz"
     shell:
         'wget ' + project["GFF-url"] + ' -O {output}'
+
+rule decompress_GFF:
+    input:
+        "resources/" + projectName + "/annotation.gff.gz"
+    output:
+        "resources/" + projectName + "/annotation.gff"
+    shell:
+        "gzcat {input} > {output}"
 
 #rule download_GFF:
 #    input:
@@ -242,19 +250,19 @@ rule gvcf_single:
 #    input:
 #        [config["gvcf-path"] + "/" + sample + ".g.vcf" for sample in get_samples_from_BAM()]
 
-rule combine_gvcfs:
-    conda:
-        "envs/gatk4.yml"
-    input:
-        c_albicans_list="sample_data/candida_albicans_samples.txt",
-        reference=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
-        gvcfs=[config["gvcf-path"] + "/" + sample + ".g.vcf" for sample in get_samples_from_BAM()]
-    output:
-        config["gvcf-combined-path"] + "/combined.g.vcf"
-    shell:
-        'gatk CombineGVCFs --reference {input.reference} ' +
-            " ".join(['-V ' + config["gvcf-path"] + "/" + sample + ".g.vcf " for sample in get_candida_albicans_samples()]) +
-            " -O {output}"
+#rule combine_gvcfs:
+#    conda:
+#        "envs/gatk4.yml"
+#    input:
+#        c_albicans_list="sample_data/candida_albicans_samples.txt",
+#        reference=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
+#        gvcfs=[config["gvcf-path"] + "/" + sample + ".g.vcf" for sample in get_samples_from_BAM()]
+#    output:
+#        config["gvcf-combined-path"] + "/combined.g.vcf"
+#    shell:
+#        'gatk CombineGVCFs --reference {input.reference} ' +
+#            " ".join(['-V ' + config["gvcf-path"] + "/" + sample + ".g.vcf " for sample in get_candida_albicans_samples()]) +
+#            " -O {output}"
 
 rule combined_vcf:
     conda:
@@ -305,9 +313,9 @@ rule gene_interval_bam_index:
     shell:
         "samtools index {input}"
 
-rule all_gene_bam:
-    input:
-        ["output/gene_sequences/" + gene + "/" + sample + ".bam.bai" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
+#rule all_gene_bam:
+#    input:
+#        ["output/gene_sequences/" + gene + "/" + sample + ".bam.bai" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
 
 rule gene_interval_vcf:
     input:
@@ -432,13 +440,13 @@ rule haplotypes:
 #    input:
 #        ["output/haplotype_sequences/" + gene + "/haplotype_" + hap + "/" + sample + ".fasta" for gene in config["genes"].keys() for sample in get_candida_albicans_samples() for hap in ["1","2"]]
 
-rule combined_haplotype_fasta:
-    input:
-        ["output/haplotype_sequences/{gene}/haplotype_" + hap + "/" + sample + ".fasta" for sample in get_candida_albicans_samples() for hap in ["1","2"]]
-    output:
-        "output/haplotype_sequences/{gene}/combined.fasta"
-    shell:
-        "cat {input} > {output}"
+#rule combined_haplotype_fasta:
+#    input:
+#        ["output/haplotype_sequences/{gene}/haplotype_" + hap + "/" + sample + ".fasta" for sample in get_candida_albicans_samples() for hap in ["1","2"]]
+#    output:
+#        "output/haplotype_sequences/{gene}/combined.fasta"
+#    shell:
+#        "cat {input} > {output}"
 
 rule sort_gff:
     input:
