@@ -1,5 +1,6 @@
 {
     "species":"Candida parapsilosis",
+    "genome-url":"ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/182/765/GCA_000182765.2_ASM18276v2/GCA_000182765.2_ASM18276v2_genomic.fna.gz",
     "samples":{
         "CplD1":{
             "FASTQ-pairs":[
