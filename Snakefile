@@ -140,11 +140,11 @@ rule bwa_single:
 rule bam_single:
     input:
         "output/" + projectName + "/SAM/{sample}.sam"
-    threads: 1
+    threads: 4
     output:
         "output/" + projectName + "/BAM/{sample}.bam"
     shell:
-        "samtools sort {input} > {output}"
+        "samtools sort -@ 3 -m 10G {input} > {output}"
 
 #rule bam:
 #    input:
