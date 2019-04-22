@@ -4,10 +4,12 @@
     "GFF-url":"ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/182/765/GCA_000182765.2_ASM18276v2/GCA_000182765.2_ASM18276v2_genomic.gff.gz",
     "batches":{
         "batch1":{
-            "optical-duplicate-distance":2500
+            "optical-duplicate-distance":2500,
+            "platform":"illumina"
         },
         "batch2":{
-            "optical-duplicate-distance":2500
+            "optical-duplicate-distance":2500,
+            "platform":"illumina"
         }
     },
     "samples":{
