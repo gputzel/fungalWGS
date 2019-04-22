@@ -131,9 +131,9 @@ rule mark_duplicates_single:
 
 rule reference_index:
     input:
-        config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta'
+        "resources/" + projectName + "/genome.fasta"
     output:
-        config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta.fai'
+        "resources/" + projectName + "/genome.fasta.fai"
     shell:
         "samtools faidx {input}"
 
@@ -141,9 +141,9 @@ rule dictionary_reference:
     conda:
         "envs/gatk4.yml"
     input:
-        config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta'
+        "resources/" + projectName + "/genome.fasta"
     output:
-        config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.dict'
+        "resources/" + projectName + "/genome.fasta.dict"
     shell:
         "gatk CreateSequenceDictionary -R {input}"
 
@@ -151,11 +151,16 @@ rule add_read_groups_single:
     conda:
         "envs/gatk4.yml"
     input:
-        config['bam-markdups-path'] + '/{sample}.bam'
+        "output/" + projectName + "/BAM-markdups/{sample}.bam"
     output:
-        config['bam-readgroups-path'] + '/{sample}.bam'
-    shell:
-        'gatk AddOrReplaceReadGroups -I {input} -O {output} -LB "{wildcards.sample}" -PL "illumina" -SM "{wildcards.sample}" -PU "{wildcards.sample}"'
+        "output/" + projectName + "/BAM-readgroups/{sample}.bam"
+    run:
+        sample=wildcards.sample
+        batch=project['samples'][sample]['batch']
+        platform=project['batches'][batch]['platform']
+        cmd = "gatk AddOrReplaceReadGroups -I {input} -O {output} -LB " + sample + " -PL " + platform + " -SM " + sample + " -PU " + batch
+        shell(cmd)
+#'gatk AddOrReplaceReadGroups -I {input} -O {output} -LB "{wildcards.sample}" -PL "illumina" -SM "{wildcards.sample}" -PU "{wildcards.sample}"'
 
 rule base_recalibrate_single:
     conda:
