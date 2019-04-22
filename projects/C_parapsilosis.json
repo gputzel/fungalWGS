@@ -2,8 +2,17 @@
     "species":"Candida parapsilosis",
     "genome-url":"ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/182/765/GCA_000182765.2_ASM18276v2/GCA_000182765.2_ASM18276v2_genomic.fna.gz",
     "GFF-url":"ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/182/765/GCA_000182765.2_ASM18276v2/GCA_000182765.2_ASM18276v2_genomic.gff.gz",
+    "batches":{
+        "batch1":{
+            "optical-duplicate-distance":2500
+        },
+        "batch2":{
+            "optical-duplicate-distance":2500
+        }
+    },
     "samples":{
         "CplD1":{
+            "batch":"batch2",
             "FASTQ-pairs":[
                 {
                     "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/CpID1/CpID1_FDMS190003291-1a_HY23FCCXY_L5_1.fq.gz",
@@ -12,6 +21,7 @@
             ]
         },
         "RI0218A":{
+            "batch":"batch2",
             "FASTQ-pairs":[
                 {
                     "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0218A/RI0218A_FDMS190003295-1a_HWYTHCCXY_L7_1.fq.gz",
@@ -20,6 +30,7 @@
             ]
         },
         "RI0096A":{
+            "batch":"batch2",
             "FASTQ-pairs":[
                 {
                     "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0096A/RI0096A_FDMS190003290-1a_HY23FCCXY_L5_1.fq.gz",
