@@ -119,15 +119,15 @@ rule mark_duplicates_single:
     conda:
         "envs/gatk4.yml"
     input:
-        config['bam-path'] + '/{sample}.bam'
+        "output/" + projectName + "/BAM/{sample}.bam"
     output:
-        bam=config['bam-markdups-path'] + '/{sample}.bam',
-        metrics=config['bam-markdups-path'] + '/mark-duplicates-metrics/{sample}-metrics.txt'
-    shell:
-        "gatk MarkDuplicates --INPUT {input} --OUTPUT {output.bam} " +
-            "--METRICS_FILE {output.metrics} --VALIDATION_STRINGENCY SILENT " +
-            "--OPTICAL_DUPLICATE_PIXEL_DISTANCE 2500 " +
-            '--ASSUME_SORT_ORDER "coordinate" '
+        bam="output/" + projectName + "/BAM-markdups/{sample}.bam",
+        metrics="output/" + projectName + "/BAM-markdups/{sample}-metrics.txt"
+    run:
+        batch = project['samples'][wildcards.sample]['batch']
+        optical_distance=str(project['batches'][batch]['optical-duplicate-distance'])
+        cmd = "gatk MarkDuplicates --INPUT {input} --OUTPUT {output.bam} --METRICS_FILE {output.metrics} --VALIDATION_STRINGENCY SILENT " + "--OPTICAL_DUPLICATE_PIXEL_DISTANCE " + optical_distance + " " + '--ASSUME_SORT_ORDER "coordinate" '
+        shell(cmd)
 
 rule reference_index:
     input:
