@@ -53,46 +53,6 @@ rule decompress_GFF:
     shell:
         "gzcat {input} > {output}"
 
-#rule download_GFF:
-#    input:
-#        HTTP.remote(config['SC5314-GFF-url'],keep_local=False)
-#    output:
-#        config['SC5314-GFF-path'] + '/C_albicans_SC5314_features.gff'
-#    shell:
-#        'cp {input} {output}'
-
-#rule remove_chrom_features:
-#    input:
-#        config['SC5314-GFF-path'] + '/C_albicans_SC5314_features.gff'
-#    output:
-#        config['SC5314-GFF-path'] + '/C_albicans_SC5314_features_no_chroms.gff'
-#    shell:
-#        'cat {input} | grep -v "C_albicans_SC5314	CGD	chromosome	1" > {output}'
-#
-#rule split_genome:
-#    input:
-#        config['SC5314-genome-path'] + '/C_albicans_SC5314.fasta'
-#    output:
-#        [config['SC5314-genome-path'] + '/C_albicans_SC5314.fasta.split/C_albicans_SC5314.id_' + chrom + '.fasta' for chrom in config['chromosomes']]
-#    shell:
-#        "seqkit split -i {input}"
-#
-#rule haplotype_A_genome:
-#    input:
-#        [config['SC5314-genome-path'] + '/C_albicans_SC5314.fasta.split/C_albicans_SC5314.id_' + chrom + '.fasta' for chrom in config['chromosomes_A']]
-#    output:
-#        config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta'
-#    shell:
-#        "cat {input} > {output}"
-#
-#rule haplotype_B_genome:
-#    input:
-#        [config['SC5314-genome-path'] + '/C_albicans_SC5314.fasta.split/C_albicans_SC5314.id_' + chrom + '.fasta' for chrom in config['chromosomes_B']]
-#    output:
-#        config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_B.fasta'
-#    shell:
-#        "cat {input} > {output}"
-
 rule bwa_index:
     input:
         "resources/" + projectName + "/genome.fasta"
