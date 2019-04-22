@@ -106,9 +106,6 @@ rule bam_single:
     shell:
         "samtools sort -@ 3 -m 10G {input} > {output}"
 
-#rule bam:
-#    input:
-#        [config['bam-path'] + '/' + sample + '.bam' for sample in get_samples()]
 
 rule index_bam_single:
     input:
@@ -117,10 +114,6 @@ rule index_bam_single:
         "output/" + projectName + "/BAM/{sample}.bam.bai"
     shell:
         "samtools index {input}"
-
-#rule index_bam:
-#    input:
-#        [config['bam-path'] + '/' + sample + '.bam.bai' for sample in get_samples_from_BAM()]
 
 rule get_known_snps:
     input:
@@ -143,10 +136,6 @@ rule mark_duplicates_single:
             "--METRICS_FILE {output.metrics} --VALIDATION_STRINGENCY SILENT " +
             "--OPTICAL_DUPLICATE_PIXEL_DISTANCE 2500 " +
             '--ASSUME_SORT_ORDER "coordinate" '
-
-#rule mark_duplicates:
-#    input:
-#        [config['bam-markdups-path'] + '/' + sample + '.bam' for sample in get_samples_from_BAM()]
 
 rule reference_index:
     input:
@@ -176,10 +165,6 @@ rule add_read_groups_single:
     shell:
         'gatk AddOrReplaceReadGroups -I {input} -O {output} -LB "{wildcards.sample}" -PL "illumina" -SM "{wildcards.sample}" -PU "{wildcards.sample}"'
 
-#rule add_read_groups:
-#    input:
-#        [config['bam-readgroups-path'] + '/' + sample + '.bam' for sample in get_samples_from_BAM()]
-
 rule base_recalibrate_single:
     conda:
         "envs/gatk4.yml"
@@ -196,10 +181,6 @@ rule base_recalibrate_single:
             "--use-original-qualities -O {output.bqsr} " +
             "--known-sites {input.vcf}"
 
-#rule base_recalibrate:
-#    input:
-#        [config['bam-readgroups-path'] + '/bqsr-fits/bqsr-' + sample + '.txt' for sample in get_samples_from_BAM()]
-
 rule apply_bqsr_single:
     conda:
         "envs/gatk4.yml"
@@ -214,10 +195,6 @@ rule apply_bqsr_single:
             "--static-quantized-quals 10 --static-quantized-quals 20 " +
             "--static-quantized-quals 30 --add-output-sam-program-record --create-output-bam-md5 --use-original-qualities"
 
-#rule apply_bqsr:
-#    input:
-#        [config['bam-recalibrated-path'] + '/' + sample + '.bam' for sample in get_samples_from_BAM()]
-
 rule gvcf_single:
     conda:
         "envs/gatk4.yml"
@@ -228,10 +205,6 @@ rule gvcf_single:
         config["gvcf-path"] + "/{sample}.g.vcf"
     shell:
         'gatk HaplotypeCaller -I {input.bam} -R {input.reference} -O {output} -ERC GVCF'
-
-#rule gvcf:
-#    input:
-#        [config["gvcf-path"] + "/" + sample + ".g.vcf" for sample in get_samples_from_BAM()]
 
 #rule combine_gvcfs:
 #    conda:
