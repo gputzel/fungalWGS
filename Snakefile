@@ -115,14 +115,6 @@ rule index_bam_single:
     shell:
         "samtools index {input}"
 
-rule get_known_snps:
-    input:
-        HTTP.remote(config['known-snps-url'],keep_local=False)
-    output:
-        "resources/Candida_SC5314_genome/VCF/A22_Jones_PMID_15123810_Polymorphisms.vcf"
-    shell:
-        "cp {input} {output}"
-
 rule mark_duplicates_single:
     conda:
         "envs/gatk4.yml"
