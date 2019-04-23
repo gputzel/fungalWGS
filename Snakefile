@@ -186,19 +186,19 @@ rule base_recalibrate_single:
             "--use-original-qualities -O {output.bqsr} " +
             "--known-sites {input.vcf}"
 
-rule apply_bqsr_single:
-    conda:
-        "envs/gatk4.yml"
-    input:
-        reference=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
-        bam=config['bam-readgroups-path'] + '/{sample}.bam',
-        bqsr=config['bam-readgroups-path'] + '/bqsr-fits/bqsr-{sample}.txt'
-    output:
-        bam=config['bam-recalibrated-path'] + '/{sample}.bam'
-    shell:
-        'gatk ApplyBQSR -R {input.reference} -bqsr {input.bqsr} -I {input.bam} -O {output.bam} ' +
-            "--static-quantized-quals 10 --static-quantized-quals 20 " +
-            "--static-quantized-quals 30 --add-output-sam-program-record --create-output-bam-md5 --use-original-qualities"
+#rule apply_bqsr_single:
+#    conda:
+#        "envs/gatk4.yml"
+#    input:
+#        reference=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
+#        bam=config['bam-readgroups-path'] + '/{sample}.bam',
+#        bqsr=config['bam-readgroups-path'] + '/bqsr-fits/bqsr-{sample}.txt'
+#    output:
+#        bam=config['bam-recalibrated-path'] + '/{sample}.bam'
+#    shell:
+#        'gatk ApplyBQSR -R {input.reference} -bqsr {input.bqsr} -I {input.bam} -O {output.bam} ' +
+#            "--static-quantized-quals 10 --static-quantized-quals 20 " +
+#            "--static-quantized-quals 30 --add-output-sam-program-record --create-output-bam-md5 --use-original-qualities"
 
 rule gvcf_single:
     conda:
