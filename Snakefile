@@ -215,19 +215,18 @@ rule gvcf_single:
     shell:
         'gatk HaplotypeCaller -I {input.bam} -R {input.reference} -O {output} -ERC GVCF'
 
-#rule combine_gvcfs:
-#    conda:
-#        "envs/gatk4.yml"
-#    input:
-#        c_albicans_list="sample_data/candida_albicans_samples.txt",
-#        reference=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
-#        gvcfs=[config["gvcf-path"] + "/" + sample + ".g.vcf" for sample in get_samples_from_BAM()]
-#    output:
-#        config["gvcf-combined-path"] + "/combined.g.vcf"
-#    shell:
-#        'gatk CombineGVCFs --reference {input.reference} ' +
-#            " ".join(['-V ' + config["gvcf-path"] + "/" + sample + ".g.vcf " for sample in get_candida_albicans_samples()]) +
-#            " -O {output}"
+rule combine_gvcfs:
+    conda:
+        "envs/gatk4.yml"
+    input:
+        reference="resources/" + projectName + "/genome.fasta",
+        gvcfs=["output/" + projectName + "/GVCF/" + sample + ".g.vcf" for sample in get_samples()]
+    output:
+        "output/" + projectName + "/GVCF_combined/combined.g.vcf"
+    shell:
+        'gatk CombineGVCFs --reference {input.reference} ' +
+            " ".join(['-V ' + 'output/' + projectName + "/GVCF/" + sample + ".g.vcf " for sample in get_samples()]) +
+            " -O {output}"
 
 rule combined_vcf:
     conda:
