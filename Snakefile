@@ -143,7 +143,7 @@ rule dictionary_reference:
     input:
         "resources/" + projectName + "/genome.fasta"
     output:
-        "resources/" + projectName + "/genome.fasta.dict"
+        "resources/" + projectName + "/genome.dict"
     shell:
         "gatk CreateSequenceDictionary -R {input}"
 
@@ -162,14 +162,22 @@ rule add_read_groups_single:
         shell(cmd)
 #'gatk AddOrReplaceReadGroups -I {input} -O {output} -LB "{wildcards.sample}" -PL "illumina" -SM "{wildcards.sample}" -PU "{wildcards.sample}"'
 
+rule index_RG_bam:
+    input:
+        "output/" + projectName + "/BAM-readgroups/{sample}.bam"
+    output:
+        "output/" + projectName + "/BAM-readgroups/{sample}.bam.bai"
+    shell:
+        "samtools index {input}"
+
 rule base_recalibrate_single:
     conda:
         "envs/gatk4.yml"
     input:
-        index=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta.fai',
-        dictionary=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.dict',
-        reference=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
-        bam=config['bam-readgroups-path'] + '/{sample}.bam',
+        index="resources/" + projectName + "/genome.fasta.fai",
+        dictionary="resources/" + projectName + "/genome.dict",
+        reference="resources/" + projectName + "/genome.fasta",
+        bam="output/" + projectName + "/BAM-readgroups/{sample}.bam",
         vcf="resources/Candida_SC5314_genome/VCF/A22_Jones_PMID_15123810_Polymorphisms.vcf"
     output:
         bqsr=config['bam-readgroups-path'] + '/bqsr-fits/bqsr-{sample}.txt'
@@ -196,10 +204,14 @@ rule gvcf_single:
     conda:
         "envs/gatk4.yml"
     input:
-        reference=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
-        bam=config['bam-recalibrated-path'] + '/{sample}.bam'
+        reference="resources/" + projectName + "/genome.fasta",
+        index="resources/" + projectName + "/genome.fasta.fai",
+        dictionary="resources/" + projectName + "/genome.dict",
+        bam="output/" + projectName + "/BAM-readgroups/{sample}.bam",
+        bam_index="output/" + projectName + "/BAM-readgroups/{sample}.bam.bai"
     output:
-        config["gvcf-path"] + "/{sample}.g.vcf"
+        #config["gvcf-path"] + "/{sample}.g.vcf"
+        "output/" + projectName + "/GVCF/{sample}.g.vcf"
     shell:
         'gatk HaplotypeCaller -I {input.bam} -R {input.reference} -O {output} -ERC GVCF'
 
