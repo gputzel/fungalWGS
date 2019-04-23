@@ -232,26 +232,26 @@ rule combined_vcf:
     conda:
         "envs/gatk4.yml"
     input:
-        reference=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
-        gvcf=config["gvcf-combined-path"] + "/combined.g.vcf"
+        reference="resources/" + projectName + "/genome.fasta",
+        gvcf="output/" + projectName + "/GVCF_combined/combined.g.vcf"
     output:
-        config["vcf-path"] + "/combined.vcf"
+        "output/" + projectName + "/VCF/combined.vcf"
     shell:
         "gatk GenotypeGVCFs -R {input.reference} -V {input.gvcf} -O {output}"
 
 rule zip:
     input:
-        config["vcf-path"] + "/combined.vcf"
+        "output/" + projectName + "/VCF/combined.vcf"
     output:
-        config["vcf-path"] + "/combined.vcf.gz"
+        "output/" + projectName + "/VCF/combined.vcf.gz"
     shell:
         "bgzip -c {input} > {output}"
 
 rule tabix_index:
     input:
-        config["vcf-path"] + "/combined.vcf.gz"
+        "output/" + projectName + "/VCF/combined.vcf.gz"
     output:
-        config["vcf-path"] + "/combined.vcf.gz.tbi"
+        "output/" + projectName + "/VCF/combined.vcf.gz.tbi"
     shell:
         "tabix {input}"
 
