@@ -255,6 +255,19 @@ rule tabix_index:
     shell:
         "tabix {input}"
 
+rule variant_filtration:
+    input:
+        "output/" + projectName + "/VCF/combined.vcf"
+    output:
+        "output/" + projectName + "/VCF_filter_labels/combined.vcf"
+    shell:
+        "gatk VariantFiltration -V {input} -O {output} " +
+            '--filter-expression "QD < 2.0" --filter-name "LowQD" ' +
+            '--filter-expression "ReadPosRankSum < -8.0" --filter-name "LowRankSum" ' +
+            '--filter-expression "FS > 60.0" --filter-name "HighFS" ' +
+            '--filter-expression "MQRankSum < -12.5" --filter-name "MQRankSum" ' +
+            '--filter-expression "MQ < 40.0" --filter-name "LowMQ" '
+
 rule gene_interval_bam:
     input:
         "output/Candida_bam_recalibrated/{sample}.bam"
