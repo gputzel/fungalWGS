@@ -268,6 +268,14 @@ rule variant_filtration:
             '--filter-expression "MQRankSum < -12.5" --filter-name "MQRankSum" ' +
             '--filter-expression "MQ < 40.0" --filter-name "LowMQ" '
 
+rule filter_VCF:
+    input:
+        "output/" + projectName + "/VCF_filter_labels/combined.vcf"
+    output:
+        "output/" + projectName + "/VCF_PASS/combined.vcf"
+    shell:
+        "gatk SelectVariants -V {input} --exclude-filtered -O {output}"
+
 rule gene_interval_bam:
     input:
         "output/Candida_bam_recalibrated/{sample}.bam"
