@@ -104,7 +104,7 @@ rule bam_single:
     output:
         "output/" + projectName + "/BAM/{sample}.bam"
     shell:
-        "samtools sort -@ 3 -m 10G {input} > {output}"
+        "samtools sort -@ 3 -m 4G {input} > {output}"
 
 
 rule index_bam_single:
