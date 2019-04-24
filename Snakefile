@@ -67,7 +67,7 @@ rule download_SRA:
         forward="output/" + projectName + "/FASTQ_SRA/{SRA}_pass_1.fastq.gz",
         reverse="output/" + projectName + "/FASTQ_SRA/{SRA}_pass_2.fastq.gz"
     shell:
-        "fastq-dump --outdir output/" + projectName + "/FASTQ_SRA --gzip --skip-technical --readids --read-filter pass --dumpbase --split-3 --clip {wildcards.SRA}"
+        "fastq-dump --outdir output/" + projectName + "/FASTQ_SRA --gzip --skip-technical --read-filter pass --dumpbase --split-3 --clip {wildcards.SRA}"
 
 def merged_FASTQ_forward_input(wildcards):
     sample_data=project["samples"][wildcards.sample]
