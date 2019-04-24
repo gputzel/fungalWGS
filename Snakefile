@@ -12,6 +12,7 @@ if projectName is not None:
     project_config_file = "projects/" + projectName + ".json"
     with open(project_config_file) as json_file:
         project = json.load(json_file)
+        print("Project = ", projectName)
 else:
     print("Please specify a project as a command line environment variable, as in:")
     print('PROJECT="myproject" snakemake ...')
@@ -61,9 +62,22 @@ rule bwa_index:
     shell:
         "bwa index {input}"
 
+rule download_SRA:
+    output:
+        forward="output/" + projectName + "/FASTQ_SRA/{SRA}_pass_1.fastq.gz",
+        reverse="output/" + projectName + "/FASTQ_SRA/{SRA}_pass_2.fastq.gz"
+    shell:
+        "fastq-dump --outdir output/" + projectName + "/FASTQ_SRA --gzip --skip-technical --readids --read-filter pass --dumpbase --split-3 --clip {wildcards.SRA}"
+
 def merged_FASTQ_forward_input(wildcards):
-    pairs = project["samples"][wildcards.sample]["FASTQ-pairs"]
-    return [p["forward"] for p in pairs]
+    sample_data=project["samples"][wildcards.sample]
+    if "FASTQ-pairs" in sample_data.keys():
+        pairs = sample_data["FASTQ-pairs"]
+        return [p["forward"] for p in pairs]
+    if "SRA" in sample_data.keys():
+        SRA = sample_data["SRA"]
+        fname = "output/" + projectName + "/FASTQ_SRA/" + SRA + "_pass_1.fastq.gz"
+        return [fname]
 
 rule merged_FASTQ_forward:
     input:
@@ -74,8 +88,15 @@ rule merged_FASTQ_forward:
         "cat {input} > {output}"
 
 def merged_FASTQ_reverse_input(wildcards):
-    pairs = project["samples"][wildcards.sample]["FASTQ-pairs"]
-    return [p["reverse"] for p in pairs]
+    sample_data=project["samples"][wildcards.sample]
+    if "FASTQ-pairs" in sample_data.keys():
+        pairs = sample_data["FASTQ-pairs"]
+        return [p["reverse"] for p in pairs]
+    if "SRA" in sample_data.keys():
+        SRA = sample_data["SRA"]
+        fname = "output/" + projectName + "/FASTQ_SRA/" + SRA + "_pass_2.fastq.gz"
+        return [fname]
+
 
 rule merged_FASTQ_reverse:
     input:
