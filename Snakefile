@@ -66,6 +66,7 @@ rule download_SRA:
     output:
         forward="output/" + projectName + "/FASTQ_SRA/{SRA}_pass_1.fastq.gz",
         reverse="output/" + projectName + "/FASTQ_SRA/{SRA}_pass_2.fastq.gz"
+    threads: 4
     shell:
         "fastq-dump --outdir output/" + projectName + "/FASTQ_SRA --gzip --skip-technical --read-filter pass --dumpbase --split-3 --clip {wildcards.SRA}"
 
