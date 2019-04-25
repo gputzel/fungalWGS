@@ -60,7 +60,9 @@
                     "forward":"/Volumes/IlievData/data_received/Candida_WGS-July-2018/FASTQ/SC5314_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Candida_WGS-July-2018/FASTQ/SC5314_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"Reference strain",
+            "Region":"?"
         },
         "UCRI0065":{
             "batch":"batch1",
@@ -69,7 +71,9 @@
                     "forward":"/Volumes/IlievData/data_received/Candida_WGS-July-2018/FASTQ/UCRI0065_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Candida_WGS-July-2018/FASTQ/UCRI0065_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"UC patient",
+            "Region":"?"
         },
         "UCRI0092":{
             "batch":"batch1",
@@ -78,7 +82,9 @@
                     "forward":"/Volumes/IlievData/data_received/Candida_WGS-July-2018/FASTQ/UCRI0092_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Candida_WGS-July-2018/FASTQ/UCRI0092_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"UC patient",
+            "Region":"?"
         },
         "UCRI0131":{
             "batch":"batch1",
@@ -87,7 +93,9 @@
                     "forward":"/Volumes/IlievData/data_received/Candida_WGS-July-2018/FASTQ/UCRI0131_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Candida_WGS-July-2018/FASTQ/UCRI0131_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"UC patient",
+            "Region":"?"
         },
         "UCRI0183":{
             "batch":"batch1",
@@ -96,7 +104,9 @@
                     "forward":"/Volumes/IlievData/data_received/Candida_WGS-July-2018/FASTQ/UCRI0183_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Candida_WGS-July-2018/FASTQ/UCRI0183_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"UC patient",
+            "Region":"?"
         },
         "RI0103B":{
             "batch":"batch2",
@@ -105,7 +115,9 @@
                     "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0103B/RI0103B_FDMS190003292-3a_HY23FCCXY_L6_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0103B/RI0103B_FDMS190003292-3a_HY23FCCXY_L6_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"Healthy control",
+            "Region":"?"
         },
         "RI0107A":{
             "batch":"batch2",
@@ -114,7 +126,9 @@
                     "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0107A/RI0107A_FDMS190003277-1a_HYCVMCCXY_L1_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0107A/RI0107A_FDMS190003277-1a_HYCVMCCXY_L1_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"UC patient",
+            "Region":"?"
         },
         "RI0110A":{
             "batch":"batch2",
@@ -123,7 +137,9 @@
                     "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0110A/RI0110A_FDMS190003274-1a_HYCVMCCXY_L1_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0110A/RI0110A_FDMS190003274-1a_HYCVMCCXY_L1_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"UC patient",
+            "Region":"?"
         },
         "RI0124A":{
             "batch":"batch2",
@@ -132,7 +148,9 @@
                     "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0124A/RI0124A_FDMS190003296-1a_HWYTHCCXY_L7_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0124A/RI0124A_FDMS190003296-1a_HWYTHCCXY_L7_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"CD patient",
+            "Region":"?"
         },
         "RI0167A":{
             "batch":"batch2",
@@ -141,7 +159,9 @@
                     "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0167A/RI0167A_FDMS190003282-1a_HYCVMCCXY_L2_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0167A/RI0167A_FDMS190003282-1a_HYCVMCCXY_L2_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"Healthy control",
+            "Region":"?"
         },
         "RI0189A":{
             "batch":"batch2",
@@ -150,7 +170,9 @@
                     "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0189A/RI0189A_FDMS190003288-1a_HY23FCCXY_L4_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0189A/RI0189A_FDMS190003288-1a_HY23FCCXY_L4_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"Healthy control",
+            "Region":"?"
         },
         "RI0236A":{
             "batch":"batch2",
@@ -159,7 +181,9 @@
                     "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0236A/RI0236A_FDMS190003283-1a_HYCVMCCXY_L2_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0236A/RI0236A_FDMS190003283-1a_HYCVMCCXY_L2_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"Healthy control",
+            "Region":"?"
         },
         "RI0248A":{
             "batch":"batch2",
@@ -168,7 +192,9 @@
                     "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0248A/RI0248A_FDMS190003276-1a_HYCVMCCXY_L1_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0248A/RI0248A_FDMS190003276-1a_HYCVMCCXY_L1_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"UC patient",
+            "Region":"?"
         },
         "RI0256A":{
             "batch":"batch2",
@@ -177,7 +203,9 @@
                     "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0256A/RI0256A_FDMS190003287-1a_HY23FCCXY_L4_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0256A/RI0256A_FDMS190003287-1a_HY23FCCXY_L4_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"Healthy control",
+            "Region":"?"
         },
         "RI0257A":{
             "batch":"batch2",
@@ -186,7 +214,9 @@
                     "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0257A/RI0257A_FDMS190003279-1a_HYCVMCCXY_L1_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0257A/RI0257A_FDMS190003279-1a_HYCVMCCXY_L1_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"UC patient",
+            "Region":"?"
         },
         "RI0266A":{
             "batch":"batch2",
@@ -195,7 +225,9 @@
                     "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0266A/RI0266A_FDMS190003275-1a_HYCVMCCXY_L1_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0266A/RI0266A_FDMS190003275-1a_HYCVMCCXY_L1_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"UC patient",
+            "Region":"?"
         },
         "RI0271A":{
             "batch":"batch2",
@@ -204,7 +236,9 @@
                     "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0271A/RI0271A_FDMS190003278-1a_HYCVMCCXY_L1_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0271A/RI0271A_FDMS190003278-1a_HYCVMCCXY_L1_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"UC patient",
+            "Region":"?"
         },
         "RI0314A":{
             "batch":"batch2",
@@ -213,7 +247,9 @@
                     "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0314A/RI0314A_FDMS190003280-1a_HYCVMCCXY_L2_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0314A/RI0314A_FDMS190003280-1a_HYCVMCCXY_L2_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"UC patient",
+            "Region":"?"
         },
         "RI0331A":{
             "batch":"batch2",
@@ -222,7 +258,9 @@
                     "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0331A/RI0331A_FDMS190003286-1a_HY23FCCXY_L4_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0331A/RI0331A_FDMS190003286-1a_HY23FCCXY_L4_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"Healthy control",
+            "Region":"?"
         },
         "RI0358A":{
             "batch":"batch2",
@@ -231,7 +269,9 @@
                     "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0358A/RI0358A_FDMS190003284-1a_HYCVMCCXY_L2_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0358A/RI0358A_FDMS190003284-1a_HYCVMCCXY_L2_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"Healthy control",
+            "Region":"?"
         },
         "RI0376A":{
             "batch":"batch2",
@@ -240,7 +280,9 @@
                     "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0376A/RI0376A_FDMS190003285-1a_HYCVMCCXY_L2_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0376A/RI0376A_FDMS190003285-1a_HYCVMCCXY_L2_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"Healthy control",
+            "Region":"?"
         },
         "RI0624A":{
             "batch":"batch2",
@@ -249,47 +291,69 @@
                     "forward":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0624A/RI0624A_FDMS190003281-1a_HYCVMCCXY_L2_1.fq.gz",
                     "reverse":"/Volumes/IlievData/data_received/Fungal_WGS_February-2019/raw_data/RI0624A/RI0624A_FDMS190003281-1a_HYCVMCCXY_L2_2.fq.gz"
                 }
-            ]
+            ],
+            "Site":"UC patient",
+            "Region":"?"
         },
         "CEC3682":{
             "batch":"CEC3682",
-            "SRA":"SRR6669866"
+            "SRA":"SRR6669866",
+            "Site":"Blood",
+            "Region":"France"
         },
         "CEC3531":{
             "batch":"CEC3531",
-            "SRA":"SRR6669849"
+            "SRA":"SRR6669849",
+            "Site":"Mouth",
+            "Region":"France"
         },
         "CEC3532":{
             "batch":"CEC3532",
-            "SRA":"SRR6669850"
+            "SRA":"SRR6669850",
+            "Site":"Mouth",
+            "Region":"France"
         },
         "CEC3529":{
             "batch":"CEC3529",
-            "SRA":"SRR6669851"
+            "SRA":"SRR6669851",
+            "Site":"Mouth",
+            "Region":"France"
         },
         "CEC3530":{
             "batch":"CEC3530",
-            "SRA":"SRR6669852"
+            "SRA":"SRR6669852",
+            "Site":"Mouth",
+            "Region":"France"
         },
         "CEC4259":{
             "batch":"CEC4259",
-            "SRA":"SRR6669929"
+            "SRA":"SRR6669929",
+            "Site":"Skin",
+            "Region":"France"
         },
         "CEC5019":{
             "batch":"CEC5019",
-            "SRA":"SRR6670001"
+            "SRA":"SRR6670001",
+            "Site":"Vagina",
+            "Region":"UK"
         },
         "CEC5021":{
             "batch":"CEC5021",
-            "SRA":"SRR6669999"
+            "SRA":"SRR6669999",
+            "Site":"Vagina",
+            "Region":"UK"
         },
         "CEC5025":{
             "batch":"CEC5025",
-            "SRA":"SRR6669995"
+            "SRA":"SRR6669995",
+            "Site":"Vagina",
+            "Region":"UK"
         },
         "CEC3555":{
             "batch":"CEC3555",
-            "SRA":"SRR6669989"
+            "SRA":"SRR6669989",
+            "Site":"Blood",
+            "Region":"France"
         }
     }
 }
