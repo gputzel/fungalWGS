@@ -14,6 +14,42 @@
         "CEC3682":{
             "optical-duplicate-distance":100,
             "platform":"illumina"
+        },
+        "CEC3531":{
+            "optical-duplicate-distance":100,
+            "platform":"illumina"
+        },
+        "CEC3532":{
+            "optical-duplicate-distance":100,
+            "platform":"illumina"
+        },
+        "CEC3529":{
+            "optical-duplicate-distance":100,
+            "platform":"illumina"
+        },
+        "CEC3530":{
+            "optical-duplicate-distance":100,
+            "platform":"illumina"
+        },
+        "CEC4259":{
+            "optical-duplicate-distance":100,
+            "platform":"illumina"
+        },
+        "CEC5019":{
+            "optical-duplicate-distance":100,
+            "platform":"illumina"
+        },
+        "CEC5021":{
+            "optical-duplicate-distance":100,
+            "platform":"illumina"
+        },
+        "CEC5025":{
+            "optical-duplicate-distance":100,
+            "platform":"illumina"
+        },
+        "CEC3555":{
+            "optical-duplicate-distance":100,
+            "platform":"illumina"
         }
     },
     "samples":{
@@ -218,6 +254,42 @@
         "CEC3682":{
             "batch":"CEC3682",
             "SRA":"SRR6669866"
+        },
+        "CEC3531":{
+            "batch":"CEC3531",
+            "SRA":"SRR6669849"
+        },
+        "CEC3532":{
+            "batch":"CEC3532",
+            "SRA":"SRR6669850"
+        },
+        "CEC3529":{
+            "batch":"CEC3529",
+            "SRA":"SRR6669851"
+        },
+        "CEC3530":{
+            "batch":"CEC3530",
+            "SRA":"SRR6669852"
+        },
+        "CEC4259":{
+            "batch":"CEC4259",
+            "SRA":"SRR6669929"
+        },
+        "CEC5019":{
+            "batch":"CEC5019",
+            "SRA":"SRR6670001"
+        },
+        "CEC5021":{
+            "batch":"CEC5021",
+            "SRA":"SRR6669999"
+        },
+        "CEC5025":{
+            "batch":"CEC5025",
+            "SRA":"SRR6669995"
+        },
+        "CEC3555":{
+            "batch":"CEC3555",
+            "SRA":"SRR6669989"
         }
     }
 }
