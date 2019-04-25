@@ -127,7 +127,6 @@ rule bam_single:
     shell:
         "samtools sort -@ 3 -m 4G {input} > {output}"
 
-
 rule index_bam_single:
     input:
         "output/" + projectName + "/BAM/{sample}.bam"
@@ -135,6 +134,10 @@ rule index_bam_single:
         "output/" + projectName + "/BAM/{sample}.bam.bai"
     shell:
         "samtools index {input}"
+
+rule index_bam_all:
+    input:
+        ["output/" + projectName + "/BAM/" + sample + ".bam.bai" for sample in get_samples()]
 
 rule mark_duplicates_single:
     conda:
