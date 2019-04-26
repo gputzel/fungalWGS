@@ -103,6 +103,10 @@
             "optical-duplicate-distance":100,
             "platform":"illumina"
         },
+        "CEC3622":{
+            "optical-duplicate-distance":100,
+            "platform":"illumina"
+        },
         "CEC3636":{
             "optical-duplicate-distance":100,
             "platform":"illumina"
