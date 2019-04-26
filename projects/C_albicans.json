@@ -134,7 +134,7 @@
         "CEC2872":{
             "optical-duplicate-distance":100,
             "platform":"illumina"
-        },
+        }
     },
     "samples":{
         "SC5314":{
@@ -582,6 +582,6 @@
             "SRA":"SRR6669856",
             "Site":"Blood",
             "Region":"South Korea"
-        },
+        }
     }
 }
