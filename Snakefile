@@ -195,6 +195,10 @@ rule index_RG_bam:
     shell:
         "samtools index {input}"
 
+rule index_RG_bam_all:
+    input:
+        ["output/" + projectName + "/BAM-readgroups/" + sample + ".bam.bai" for sample in get_samples()]
+
 rule base_recalibrate_single:
     conda:
         "envs/gatk4.yml"
