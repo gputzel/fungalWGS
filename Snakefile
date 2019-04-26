@@ -12,7 +12,6 @@ if projectName is not None:
     project_config_file = "projects/" + projectName + ".json"
     with open(project_config_file) as json_file:
         project = json.load(json_file)
-        print("Project = ", projectName)
 else:
     print("Please specify a project as a command line environment variable, as in:")
     print('PROJECT="myproject" snakemake ...')
