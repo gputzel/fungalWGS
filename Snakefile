@@ -198,6 +198,21 @@ rule index_RG_bam_all:
     input:
         ["output/" + projectName + "/BAM-readgroups/" + sample + ".bam.bai" for sample in get_samples()]
 
+rule coverage:
+    conda:
+        "envs/bedtools.yml"
+    input:
+        "output/" + projectName + "/BAM-readgroups/{sample}.bam"
+    output:
+        "output/" + projectName + "/coverage/{sample}.txt"
+    threads: 4
+    shell:
+        "genomeCoverageBed -ibam {input} > {output}"
+
+rule coverage_all:
+    input:
+        ["output/" + projectName + "/coverage/" + sample + ".txt" for sample in get_samples()]
+
 rule base_recalibrate_single:
     conda:
         "envs/gatk4.yml"
