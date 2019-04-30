@@ -596,5 +596,13 @@
             "Region":"South Korea"
         }
     },
-    "exclude_from_VCF":["CEC3638"]
+    "exclude_from_VCF":["CEC3638"],
+    "regions":{
+        "ECE1":{
+            "chromosome":"Ca22chr4A_C_albicans_SC5314",
+            "start":726514,
+            "end":727329,
+            "strand":"-"
+        }
+    }
 }
