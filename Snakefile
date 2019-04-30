@@ -333,16 +333,16 @@ rule gene_interval_bam_index:
 
 rule gene_interval_vcf:
     input:
-        ref=config['SC5314-genome-path'] + '/C_albicans_SC5314_haplotype_A.fasta',
-        vcf="output/Candida_albicans_VCF/combined.vcf"
+        ref="resources/" + projectName + "/genome.fasta",
+        vcf="output/" + projectName + "/VCF_PASS/combined.vcf"
     output:
-        "output/gene_sequences/{gene}/{sample}.vcf"
+        "output/" + projectName + "/region_VCF/{region}/{sample}.vcf"
     run:
-        gene = wildcards.gene
+        region = wildcards.region
         sample = wildcards.sample
-        chrom = config["genes"][gene]["chrom"]
-        start = str(config["genes"][gene]["start"]) 
-        end = str(config["genes"][gene]["end"]) 
+        chrom = project["regions"][region]["chromosome"]
+        start = str(project["regions"][region]["start"]) 
+        end = str(project["regions"][region]["end"]) 
         interval = chrom + ":" + start + "-" + end
         cmd = "gatk SelectVariants -R {input.ref} -V {input.vcf} -sn " + sample + " -O {output} -L " + interval
         shell(cmd)
