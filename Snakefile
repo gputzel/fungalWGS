@@ -249,12 +249,12 @@ rule combine_gvcfs:
         "envs/gatk4.yml"
     input:
         reference="resources/" + projectName + "/genome.fasta",
-        gvcfs=["output/" + projectName + "/GVCF/" + sample + ".g.vcf" for sample in get_samples()]
+        gvcfs=["output/" + projectName + "/GVCF/" + sample + ".g.vcf" for sample in get_samples() if not sample in project["exclude_from_VCF"]]
     output:
         "output/" + projectName + "/GVCF_combined/combined.g.vcf"
     shell:
         'gatk CombineGVCFs --reference {input.reference} ' +
-            " ".join(['-V ' + 'output/' + projectName + "/GVCF/" + sample + ".g.vcf " for sample in get_samples()]) +
+            " ".join(['-V ' + 'output/' + projectName + "/GVCF/" + sample + ".g.vcf " for sample in get_samples() if not sample in project["exclude_from_VCF"]]) +
             " -O {output}"
 
 rule combined_vcf:

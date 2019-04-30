@@ -595,5 +595,6 @@
             "Site":"Blood",
             "Region":"South Korea"
         }
-    }
+    },
+    "exclude_from_VCF":["CEC3638"]
 }
