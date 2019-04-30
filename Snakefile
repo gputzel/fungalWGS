@@ -354,9 +354,9 @@ rule gene_interval_vcf:
 #extractHAIRS doesn't like it where you have more than two alleles - even if only two of them occur in each sample!
 rule trim_gene_vcf:
     input:
-        "output/gene_sequences/{gene}/{sample}.vcf"
+        "output/" + projectName + "/region_VCF/{region}/{sample}.vcf"
     output:
-        "output/gene_sequences_trimmed_vcf/{gene}/{sample}.vcf"
+        "output/" + projectName + "/region_VCF_trimmed/{region}/{sample}.vcf"
     shell:
         "bcftools view --trim-alt-alleles {input} > {output}"
 
