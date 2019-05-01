@@ -370,7 +370,8 @@ rule exclude_non_variants:
 
 rule fragment_file:
     input:
-        bam="output/" + projectName + "/BAM-readgroups/{sample}.bam",
+        #bam="output/" + projectName + "/BAM-readgroups/{sample}.bam",
+        bam="output/" + projectName + "/region_BAM/{region}/{sample}.bam",
         vcf="output/" + projectName + "/region_VCF_exclude_non_variant/{region}/{sample}.vcf"
     output:
         "output/" + projectName + "/fragment_files/{region}/{sample}_fragment_file"
