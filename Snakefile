@@ -430,7 +430,7 @@ rule haplotypes_full:
         vcf="output/" + projectName + "/region_phased_VCF/{region}/{sample}.vcf.gz",
         index="output/" + projectName + "/region_phased_VCF/{region}/{sample}.vcf.gz.tbi"
     output:
-        "output/" + projectName + "/haplotype_sequences_full/{region}/haplotype_{hap}/{sample}.fasta"
+        temp("output/" + projectName + "/haplotype_sequences_full/{region}/haplotype_{hap}/{sample}.fasta")
     shell:
         'bcftools consensus -s {wildcards.sample} -H {wildcards.hap} ' + 
         '-f {input.ref} {input.vcf} > {output}'
