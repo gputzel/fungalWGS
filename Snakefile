@@ -307,29 +307,30 @@ rule filter_VCF:
 
 rule gene_interval_bam:
     input:
-        "output/Candida_bam_recalibrated/{sample}.bam"
+        "output/" + projectName + "/BAM-readgroups/{sample}.bam"
     output:
-        "output/gene_sequences/{gene}/{sample}.bam"
+        "output/" + projectName + "/region_BAM/{region}/{sample}.bam"
     run:
-        gene = wildcards.gene
-        chrom = config["genes"][gene]["chrom"]
-        start = str(config["genes"][gene]["start"]) 
-        end = str(config["genes"][gene]["end"]) 
+        region = wildcards.region
+        sample = wildcards.sample
+        chrom = project["regions"][region]["chromosome"]
+        start = str(project["regions"][region]["start"]) 
+        end = str(project["regions"][region]["end"]) 
         interval = chrom + ":" + start + "-" + end
         cmd = "samtools view -bh {input} " + interval + " > {output}"
         shell(cmd)
 
 rule gene_interval_bam_index:
     input:
-        "output/gene_sequences/{gene}/{sample}.bam"
+        "output/" + projectName + "/region_BAM/{region}/{sample}.bam"
     output:
-        "output/gene_sequences/{gene}/{sample}.bam.bai"
+        "output/" + projectName + "/region_BAM/{region}/{sample}.bam.bai"
     shell:
         "samtools index {input}"
 
-#rule all_gene_bam:
-#    input:
-#        ["output/gene_sequences/" + gene + "/" + sample + ".bam.bai" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
+rule all_gene_bam:
+    input:
+        ["output/" + projectName + "/region_BAM/" + region + "/" + sample + ".bam.bai" for region in project["regions"].keys() for sample in get_samples()]
 
 rule gene_interval_vcf:
     input:
@@ -347,10 +348,6 @@ rule gene_interval_vcf:
         cmd = "gatk SelectVariants -R {input.ref} -V {input.vcf} -sn " + sample + " -O {output} -L " + interval
         shell(cmd)
 
-#rule all_gene_vcf:
-#    input:
-#        ["output/gene_sequences/" + gene + "/" + sample + ".vcf" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
-
 #extractHAIRS doesn't like it where you have more than two alleles - even if only two of them occur in each sample!
 rule trim_gene_vcf:
     input:
@@ -359,10 +356,6 @@ rule trim_gene_vcf:
         "output/" + projectName + "/region_VCF_trimmed/{region}/{sample}.vcf"
     shell:
         "bcftools view --trim-alt-alleles {input} > {output}"
-
-#rule all_trimmed_vcf:
-#    input:
-#        ["output/gene_sequences_trimmed_vcf/" + gene + "/" + sample + ".vcf" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
 
 rule exclude_non_variants:
     conda:
@@ -374,10 +367,6 @@ rule exclude_non_variants:
         "output/" + projectName + "/region_VCF_exclude_non_variant/{region}/{sample}.vcf"
     shell:
         "gatk SelectVariants -R {input.ref} -V {input.vcf} --exclude-non-variants -O {output}"
-
-#rule all_exclude_non_variant_vcf:
-#    input:
-#        ["output/gene_sequences_trimmed_vcf_exclude-non-variant/" + gene + "/" + sample + ".vcf" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
 
 rule fragment_file:
     input:
