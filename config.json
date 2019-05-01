@@ -30,5 +30,13 @@
             "strand":"-"
         }
     },
-    "hapcut-path":"bin/hapcut"
+    "hapcut-path":"bin/hapcut",
+    "ete3-genetree-workflows":{
+        "standard_fasttree":{
+            "tree-directory":"clustalo_default-none-none-fasttree_full"
+        },
+        "standard_raxml":{
+            "tree-directory":"clustalo_default-none-none-raxml_default"
+        }
+    }
 }

@@ -462,6 +462,18 @@ rule combined_haplotype_fasta:
     shell:
         "cat {input} > {output}"
 
+rule genetree:
+    input:
+        "output/" + projectName + "/haplotype_sequences_combined/{region}.fasta"
+    output:
+        outdir=directory("output/" + projectName + "/gene_trees/{region}/{workflow}")
+    shell:
+        "ete3 build -w {wildcards.workflow} -n {input} -o {output.outdir}/ --clearall"
+
+rule all_genetrees:
+    input:
+        ["output/" + projectName + "/gene_trees/" + region + "/" + workflow for region in project["regions"].keys() for workflow in config["ete3-genetree-workflows"].keys()]
+
 rule sort_gff:
     input:
         "resources/Candida_SC5314_genome/GFF/C_albicans_SC5314_features_no_chroms.gff"
