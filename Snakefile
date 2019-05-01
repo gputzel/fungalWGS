@@ -474,6 +474,21 @@ rule all_genetrees:
     input:
         ["output/" + projectName + "/gene_trees/" + region + "/" + workflow for region in project["regions"].keys() for workflow in config["ete3-genetree-workflows"].keys()]
 
+def genetree_graphic_input(wildcards):
+    region = wildcards["region"]
+    workflow = wildcards["workflow"]
+    treedir = config["ete3-genetree-workflows"][workflow]["tree-directory"]
+    filename = "output/" + projectName + "/gene_trees/" + region + "/" + workflow + "/" + treedir + "/" + region + ".fasta.final_tree.nw"
+    return {"tree":filename,"project_JSON_file":project_config_file}
+
+rule genetree_graphic:
+    input:
+        unpack(genetree_graphic_input)
+    output:
+        pdf="output/" + projectName + "/gene_tree_graphics/{workflow}/{region}.pdf"
+    script:
+        "scripts/tree_graphic.R"
+
 rule sort_gff:
     input:
         "resources/Candida_SC5314_genome/GFF/C_albicans_SC5314_features_no_chroms.gff"
