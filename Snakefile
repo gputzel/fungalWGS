@@ -456,7 +456,7 @@ rule all_haplotypes:
 
 rule combined_haplotype_fasta:
     input:
-        ["output/" + projectName + "/haplotype_sequences/" + region + "/haplotype_" + hap + "/" + sample + ".fasta" for region in project["regions"].keys() for sample in get_samples() for hap in ["1","2"] if not sample in project["exclude_from_VCF"]]
+        ["output/" + projectName + "/haplotype_sequences/{region}/haplotype_" + hap + "/" + sample + ".fasta" for sample in get_samples() for hap in ["1","2"] if not sample in project["exclude_from_VCF"]]
     output:
         "output/" + projectName + "/haplotype_sequences_combined/{region}.fasta" 
     shell:
