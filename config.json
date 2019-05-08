@@ -31,6 +31,7 @@
         }
     },
     "hapcut-path":"bin/hapcut",
+    "Bandage-path":"/Applications/Bandage.app/Contents/MacOS/Bandage",
     "ete3-genetree-workflows":{
         "standard_fasttree":{
             "tree-directory":"clustalo_default-none-none-fasttree_full"
