@@ -110,12 +110,39 @@ rule spades:
         forward="output/" + projectName + "/FASTQ_merged/{sample}_R1.fastq.gz",
         reverse="output/" + projectName + "/FASTQ_merged/{sample}_R2.fastq.gz"
     output:
-        output_dir=directory("output/" + projectName + "/assemblies/{sample}")
+        fastg="output/" + projectName + "/assemblies/{sample}/assembly_graph.fastg"
     threads: 4
     benchmark:
         "benchmarks/spades/{sample}.txt"
     shell:
-        "spades.py -t {threads} --only-assembler -1 {input.forward} -2 {input.reverse} -o {output.output_dir}"
+        "spades.py -t {threads} --only-assembler -1 {input.forward} -2 {input.reverse} -o output/" + projectName + "/assemblies/{wildcards.sample}"
+
+rule region_reference_sequence:
+    input:
+        "resources/" + projectName + "/genome.fasta"
+    output:
+        "output/" + projectName + "/region_reference_sequences/{region}.fasta"
+    run:
+        region = wildcards.region
+        chromosome = project["regions"][region]["chromosome"]
+        start = str(project["regions"][region]["start"]) 
+        end = str(project["regions"][region]["end"]) 
+        interval = chromosome + ":" + start + "-" + end
+        cmd = "samtools faidx {input} " + interval + ' | seqkit replace -p ".*" -r "{wildcards.region}-reference" > {output}'
+        shell(cmd)
+
+rule querypaths:
+    input:
+        graph="output/" + projectName + "/assemblies/{sample}/assembly_graph.fastg",
+        fasta="output/" + projectName + "/region_reference_sequences/{region}.fasta"
+    output:
+        "output/" + projectName + "/querypaths/{region}/{sample}.tsv"
+    shell:
+        config["Bandage-path"] + " querypaths {input.graph} {input.fasta} " + "output/" + projectName + "/querypaths/{wildcards.region}/{wildcards.sample}"
+
+rule all_querypaths:
+    input:
+        ["output/" + projectName + "/querypaths/" + region + "/" + sample + ".tsv" for region in project["regions"].keys() for sample in get_samples()]
 
 #include: "rules/slurm_script.smk"
 
