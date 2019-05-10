@@ -97,7 +97,6 @@ def merged_FASTQ_reverse_input(wildcards):
         fname = "output/" + projectName + "/FASTQ_SRA/" + SRA + "_pass_2.fastq.gz"
         return [fname]
 
-
 rule merged_FASTQ_reverse:
     input:
         unpack(merged_FASTQ_reverse_input)
@@ -105,6 +104,20 @@ rule merged_FASTQ_reverse:
         temp("output/" + projectName + "/FASTQ_merged/{sample}_R2.fastq.gz")
     shell:
         "cat {input} > {output}"
+
+rule spades:
+    input:
+        forward="output/" + projectName + "/FASTQ_merged/{sample}_R1.fastq.gz",
+        reverse="output/" + projectName + "/FASTQ_merged/{sample}_R2.fastq.gz"
+    output:
+        output_dir=directory("output/" + projectName + "/assemblies/{sample}")
+    threads: 4
+    benchmark:
+        "benchmarks/spades/{sample}.txt"
+    shell:
+        "spades.py -t {threads} --only-assembler -1 {input.forward} -2 {input.reverse} -o {output.output_dir}"
+
+#include: "rules/slurm_script.smk"
 
 rule bwa_single:
     input:
