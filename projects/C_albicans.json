@@ -604,6 +604,20 @@
             "end":727329,
             "strand":"-"
         },
+        "ECE1-flank-left":{
+            "chromosome":"Ca22chr4A_C_albicans_SC5314",
+            "start":726000,
+            "end":726514,
+            "strand":"-"
+
+        },
+        "ECE1-flank-right":{
+            "chromosome":"Ca22chr4A_C_albicans_SC5314",
+            "start":727329,
+            "end":727829,
+            "strand":"-"
+
+        },
         "EFG1":{
             "chromosome":"Ca22chrRA_C_albicans_SC5314",
             "start":1723489,
