@@ -144,6 +144,18 @@ rule all_querypaths:
     input:
         ["output/" + projectName + "/querypaths/" + region + "/" + sample + ".tsv" for region in project["regions"].keys() for sample in get_samples()]
 
+rule querypaths_fasta:
+    input:
+        tsv="output/" + projectName + "/querypaths/{region}/{sample}.tsv"
+    output:
+        fasta="output/" + projectName + "/querypaths_fasta/{region}/{sample}.fasta"
+    script:
+        "scripts/querypaths_fasta.py"
+
+rule all_querypaths_fasta:
+    input:
+        ["output/" + projectName + "/querypaths_fasta/" + region + "/" + sample + ".fasta" for region in project["regions"].keys() for sample in get_samples()]
+
 #include: "rules/slurm_script.smk"
 
 rule bwa_single:
