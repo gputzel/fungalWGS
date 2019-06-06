@@ -192,6 +192,28 @@ rule filter_querypaths:
     shell:
         "seqtk subseq {input.fasta} {input.filterlist} > {output.fasta}"
 
+rule translated_querypaths:
+    input:
+        fasta="output/" + projectName + "/querypaths_filtered/{region}.fasta"
+    output:
+        fasta="output/" + projectName + "/querypaths_translated/{region}.fasta"
+    run:
+        region=wildcards.region
+        strand = project["regions"][region]["strand"]
+        if strand == '-':
+            cmd = "transeq -sequence <(seqkit seq {input.fasta} -r -p) -outseq {output.fasta} -frame 1 -table 12"
+        else:
+            cmd = "transeq -sequence {input.fasta} -outseq {output.fasta} -frame 1 -table 12"
+        shell(cmd)
+
+rule align_translated_querypaths:
+    input:
+        fasta="output/" + projectName + "/querypaths_translated/{region}.fasta"
+    output:
+        aln="output/" + projectName + "/querypaths_translated_aligned/{region}.aln"
+    shell:
+        "clustal_omega -i {input.fasta} > {output.aln}"
+
 #include: "rules/slurm_script.smk"
 
 rule bwa_single:
