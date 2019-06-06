@@ -156,6 +156,42 @@ rule all_querypaths_fasta:
     input:
         ["output/" + projectName + "/querypaths_fasta/" + region + "/" + sample + ".fasta" for region in project["regions"].keys() for sample in get_samples()]
 
+rule querypaths_combined:
+    input:
+        ["output/" + projectName + "/querypaths_fasta/{region}/" + sample + ".fasta" for sample in get_samples()]
+    output:
+        "output/" + projectName + "/querypaths_combined/{region}.fasta"
+    shell:
+        "cat {input} > {output}"
+
+rule querypaths_aligned:
+    input:
+        "output/" + projectName + "/querypaths_combined/{region}.fasta"
+    output:
+        aln="output/" + projectName + "/querypaths_aligned/{region}.aln",
+        distmat="output/" + projectName + "/querypaths_aligned/{region}.distmat.txt"
+    shell:
+        "clustal_omega -i {input} --full --distmat-out {output.distmat} > {output.aln}"
+
+#List of samples with more than 2 paths
+rule process_ambiguous_samples:
+    input:
+        distmat="output/" + projectName + "/querypaths_aligned/{region}.distmat.txt"
+    output:
+        txt="output/" + projectName + "/ambiguous_sample_lists/{region}.txt",
+        filtered="output/" + projectName + "/filtered_path_lists/{region}.txt"
+    script:
+        "scripts/ambiguous_samples.R"
+
+rule filter_querypaths:
+    input:
+        fasta="output/" + projectName + "/querypaths_combined/{region}.fasta",
+        filterlist="output/" + projectName + "/filtered_path_lists/{region}.txt"
+    output:
+        fasta="output/" + projectName + "/querypaths_filtered/{region}.fasta"
+    shell:
+        "seqtk subseq {input.fasta} {input.filterlist} > {output.fasta}"
+
 #include: "rules/slurm_script.smk"
 
 rule bwa_single:
