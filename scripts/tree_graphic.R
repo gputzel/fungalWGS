@@ -18,8 +18,8 @@ mytree <- treeio::read.tree(treefile)
 mytree$tip.label %>%
     enframe(value='sequence') %>%
     select(-name) %>%
-    extract(sequence,into=c('strain','haplotype'),regex='([^-]*)-hap-(1|2)',remove=F) %>%
-    select(-haplotype)->
+    extract(sequence,into=c('strain','path'),regex='([^-]*)-path-([^-]*)',remove=F) %>%
+    select(-path)->
     df.sequence
 
 df <- left_join(df.sequence,df.strains,by='strain')
