@@ -542,7 +542,7 @@ rule combined_haplotype_fasta:
 
 rule genetree:
     input:
-        "output/" + projectName + "/haplotype_sequences_combined/{region}.fasta"
+        "output/" + projectName + "/querypaths_filtered/{region}.fasta"
     output:
         outdir=directory("output/" + projectName + "/gene_trees/{region}/{workflow}")
     shell:
