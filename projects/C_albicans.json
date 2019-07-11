@@ -1,6 +1,7 @@
 {
     "species":"Candida albicans",
     "genome-url":"Local",
+    "snp-density-window-size":10000,
     "GFF-url":"Local",
     "batches":{
         "batch1":{

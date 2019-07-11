@@ -621,3 +621,53 @@ rule vep:
 #rule all_vep:
 #    input:
 #        ["output/vep_output/" + gene + "/" + sample + "_vep" for gene in config["genes"].keys() for sample in get_candida_albicans_samples()]
+
+rule reference_contig_lengths:
+    input:
+       "resources/" + projectName + "/genome.fasta" 
+    output:
+        "resources/" + projectName + "/genome_contig_lengths.txt"
+    shell:
+        "cat {input} | bioawk -c fastx '{{ print $name, length($seq) }}' > {output}"
+
+rule reference_windows:
+    input:
+        "resources/" + projectName + "/genome_contig_lengths.txt"
+    output:
+        "resources/" + projectName + "/genome_windows.bed"
+    shell:
+        "bedtools makewindows -g {input} -w " + str(project["snp-density-window-size"]) + " > {output}"
+
+rule individual_VCF:
+    input:
+        vcf="output/" + projectName + "/VCF_PASS/combined.vcf"
+    output:
+        vcf="output/" + projectName + "/VCF_individual/{sample}.vcf"
+    shell:
+        "gatk SelectVariants -V {input} -sn {wildcards.sample} -O {output}"
+
+rule all_individual_VCF:
+    input:
+        ["output/" + projectName + "/VCF_individual/" + sample + ".vcf" for sample in get_samples() if not sample in project["exclude_from_VCF"]]
+
+rule individual_VCF_het:
+    input:
+        vcf="output/" + projectName + "/VCF_individual/{sample}.vcf"
+    output:
+        vcf=temp("output/" + projectName + "/VCF_individual_het/{sample}.vcf")
+    shell:
+        "bcftools view {input.vcf} -g het > {output.vcf}"
+
+rule het_SNP_count:
+    input:
+        bed="resources/" + projectName + "/genome_windows.bed",
+        vcf="output/" + projectName + "/VCF_individual_het/{sample}.vcf"
+    output:
+        txt=temp("output/" + projectName + "/het_coverage_windows/{sample}.txt")
+    shell:
+        "bedtools coverage -a {input.bed} -b {input.vcf} -counts > {output}"
+
+rule all_het_SNP_count:
+    input:
+        ["output/" + projectName + "/het_coverage_windows/" + sample + ".txt" for sample in get_samples() if not sample in project["exclude_from_VCF"]]
+
