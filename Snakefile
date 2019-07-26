@@ -642,7 +642,7 @@ rule individual_VCF:
     input:
         vcf="output/" + projectName + "/VCF_PASS/combined.vcf"
     output:
-        vcf="output/" + projectName + "/VCF_individual/{sample}.vcf"
+        vcf=temp("output/" + projectName + "/VCF_individual/{sample}.vcf")
     shell:
         "gatk SelectVariants -V {input} -sn {wildcards.sample} -O {output}"
 
@@ -663,7 +663,7 @@ rule het_SNP_count:
         bed="resources/" + projectName + "/genome_windows.bed",
         vcf="output/" + projectName + "/VCF_individual_het/{sample}.vcf"
     output:
-        txt=temp("output/" + projectName + "/het_coverage_windows/{sample}.txt")
+        txt="output/" + projectName + "/het_coverage_windows/{sample}.txt"
     shell:
         "bedtools coverage -a {input.bed} -b {input.vcf} -counts > {output}"
 
