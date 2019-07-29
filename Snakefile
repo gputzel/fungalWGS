@@ -671,3 +671,15 @@ rule all_het_SNP_count:
     input:
         ["output/" + projectName + "/het_coverage_windows/" + sample + ".txt" for sample in get_samples() if not sample in project["exclude_from_VCF"]]
 
+rule window_coverage:
+    input:
+        bed="resources/" + projectName + "/genome_windows.bed",
+        bam="output/" + projectName + "/BAM-readgroups/{sample}.bam"
+    output:
+        txt="output/" + projectName + "/read_coverage/{sample}.txt"
+    shell:
+        "bedtools coverage -a {input.bed} -b {input.bam} > {output.txt}"
+
+rule all_window_coverage:
+    input:
+        ["output/" + projectName + "/read_coverage/" + sample + ".txt" for sample in get_samples() if not sample in project["exclude_from_VCF"]]
