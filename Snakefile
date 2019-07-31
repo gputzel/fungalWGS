@@ -105,6 +105,26 @@ rule merged_FASTQ_reverse:
     shell:
         "cat {input} > {output}"
 
+rule trim_single:
+    input:
+        forward="output/" + projectName + "/FASTQ_merged/{sample}_R1.fastq.gz",
+        reverse="output/" + projectName + "/FASTQ_merged/{sample}_R2.fastq.gz"
+    output:
+        forward="output/" + projectName + "/FASTQ_trimmed/{sample}_R1.fq.gz",
+        reverse="output/" + projectName + "/FASTQ_trimmed/{sample}_R2.fq.gz",
+        forward_report="output/" + projectName +"/FASTQ_trimmed/{sample}_R1_trimming_report.txt",
+        reverse_report="output/" + projectName + "/FASTQ_trimmed/{sample}_R2_trimming_report.txt",
+    run:
+        shell("trim_galore -q 30 --illumina --trim-n --paired {input.forward} {input.reverse} --output_dir output/" + projectName + "/FASTQ_trimmed")
+        trimmed_forward = input.forward.split('/')[-1].replace(".fastq.gz","_val_1.fq.gz")
+        trimmed_reverse = input.reverse.split('/')[-1].replace(".fastq.gz","_val_2.fq.gz")
+        trimmed_forward_report = input.forward.split('/')[-1] + "_trimming_report.txt"
+        trimmed_reverse_report = input.reverse.split('/')[-1] + "_trimming_report.txt"
+        shell("mv output/" + projectName + "/FASTQ_trimmed/" + trimmed_forward + " {output.forward}")
+        shell("mv output/" + projectName + "/FASTQ_trimmed/" + trimmed_reverse + " {output.reverse}")
+        shell("mv output/" + projectName + "/FASTQ_trimmed/" + trimmed_forward_report + " {output.forward_report}")
+        shell("mv output/" + projectName + "/FASTQ_trimmed/" + trimmed_reverse_report + " {output.reverse_report}")
+
 rule spades:
     input:
         forward="output/" + projectName + "/FASTQ_merged/{sample}_R1.fastq.gz",
@@ -116,6 +136,18 @@ rule spades:
         "benchmarks/spades/{sample}.txt"
     shell:
         "spades.py -t {threads} --only-assembler -1 {input.forward} -2 {input.reverse} -o output/" + projectName + "/assemblies/{wildcards.sample}"
+
+rule spades_trimmed:
+    input:
+        forward="output/" + projectName + "/FASTQ_trimmed/{sample}_R1.fq.gz",
+        reverse="output/" + projectName + "/FASTQ_trimmed/{sample}_R2.fq.gz"
+    output:
+        fastg="output/" + projectName + "/assemblies_from_trimmed/{sample}/assembly_graph.fastg"
+    threads: 4
+    benchmark:
+        "benchmarks/spades/{sample}.txt"
+    shell:
+        "spades.py -t {threads} --only-assembler -1 {input.forward} -2 {input.reverse} -o output/" + projectName + "/assemblies_from_trimmed/{wildcards.sample}"
 
 rule region_reference_sequence:
     input:
