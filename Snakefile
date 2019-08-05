@@ -248,11 +248,11 @@ rule align_translated_querypaths:
 
 rule tree_from_translated_querypaths:
     input:
-        aln="output/" + projectName + "/querypaths_translated_aligned/{region}.aln"
+        fasta="output/" + projectName + "/querypaths_translated/{region}.fasta"
     output:
-        outdir=directory("output/" + projectName + "/querypaths_translated_tree/{region}/standard_fasttree")
+        outdir=directory("output/" + projectName + "/querypaths_translated_tree/{region}/{workflow}")
     shell:
-        "ete3 build -w standard_fasttree -n {input} -o {output.outdir}/ --clearall"
+        "ete3 build -w {wildcards.workflow} -a {input} -o {output.outdir}/ --clearall"
 
 #include: "rules/slurm_script.smk"
 
