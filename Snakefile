@@ -498,6 +498,17 @@ rule gene_interval_vcf:
         cmd = "gatk SelectVariants -R {input.ref} -V {input.vcf} -sn " + sample + " -O {output} -L " + interval
         shell(cmd)
 
+rule gene_interval_consensus:
+    input:
+        ref="resources/" + projectName + "/genome.fasta",
+        vcf="output/" + projectName + "/region_phased_VCF/{region}/{sample}.vcf.gz",
+        index="output/" + projectName + "/region_phased_VCF/{region}/{sample}.vcf.gz.tbi"
+    output:
+        "output/" + projectName + "/region_consensus_fasta/{region}/{sample}.fasta"
+    shell:
+        'bcftools consensus -s {wildcards.sample} --iupac-codes ' + 
+        '-f {input.ref} {input.vcf} > {output}'
+
 #extractHAIRS doesn't like it where you have more than two alleles - even if only two of them occur in each sample!
 rule trim_gene_vcf:
     input:
