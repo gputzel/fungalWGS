@@ -558,6 +558,19 @@ rule MLST_concat:
         cmd = "cat " + " ".join(input_file_list) + " | grep -v '^>' | cat <(echo '>{wildcards.sample}') - | seqkit seq -w50 > {output}"
         shell(cmd)
 
+def MLST_alignment_input(wildcards):
+    MLST_set = wildcards.MLST_set
+    samples = [sample for sample in get_samples() if not sample in project["exclude_from_VCF"]]
+    return ["output/" + projectName + "/MLST_consensus_concat/" + MLST_set + "/" + sample + ".fasta" for sample in samples]
+
+rule MLST_alignment:
+    input:
+        unpack(MLST_alignment_input)
+    output:
+        "output/" + projectName + "/MLST_alignment/{MLST_set}.aln"
+    shell:
+        "cat {input} | clustal_omega -i - > {output}"
+
 #extractHAIRS doesn't like it where you have more than two alleles - even if only two of them occur in each sample!
 rule trim_gene_vcf:
     input:
