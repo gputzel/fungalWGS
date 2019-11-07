@@ -498,11 +498,27 @@ rule gene_interval_vcf:
         cmd = "gatk SelectVariants -R {input.ref} -V {input.vcf} -sn " + sample + " -O {output} -L " + interval
         shell(cmd)
 
+rule gene_interval_vcf_zip:
+    input:
+        "output/" + projectName + "/region_VCF/{region}/{sample}.vcf"
+    output:
+        "output/" + projectName + "/region_VCF/{region}/{sample}.vcf.gz"
+    shell:
+        "bgzip -c {input} > {output}"
+
+rule gene_interval_vcf_index:
+    input:
+        "output/" + projectName + "/region_VCF/{region}/{sample}.vcf.gz"
+    output:
+        "output/" + projectName + "/region_VCF/{region}/{sample}.vcf.gz.tbi"
+    shell:
+        "tabix {input}"
+
 rule gene_interval_consensus:
     input:
         ref="resources/" + projectName + "/genome.fasta",
-        vcf="output/" + projectName + "/region_phased_VCF/{region}/{sample}.vcf.gz",
-        index="output/" + projectName + "/region_phased_VCF/{region}/{sample}.vcf.gz.tbi"
+        vcf="output/" + projectName + "/region_VCF/{region}/{sample}.vcf.gz",
+        index="output/" + projectName + "/region_VCF/{region}/{sample}.vcf.gz.tbi"
     output:
         "output/" + projectName + "/region_consensus_fasta/{region}/{sample}.fasta"
     shell:
