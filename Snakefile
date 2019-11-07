@@ -135,7 +135,7 @@ rule spades:
     benchmark:
         "benchmarks/spades/{sample}.txt"
     shell:
-        "spades.py -t {threads} --only-assembler -1 {input.forward} -2 {input.reverse} -o output/" + projectName + "/assemblies/{wildcards.sample}"
+        "spades.py -t {threads} -k 21,33,55,77 --careful -1 {input.forward} -2 {input.reverse} -o output/" + projectName + "/assemblies/{wildcards.sample}"
 
 rule spades_trimmed:
     input:
@@ -254,7 +254,7 @@ rule tree_from_translated_querypaths:
     shell:
         "ete3 build -w {wildcards.workflow} -a {input} -o {output.outdir}/ --clearall"
 
-#include: "rules/slurm_script.smk"
+include: "rules/slurm_script.smk"
 
 rule bwa_single:
     input:
@@ -273,7 +273,7 @@ rule bam_single:
         "output/" + projectName + "/SAM/{sample}.sam"
     threads: 4
     output:
-        "output/" + projectName + "/BAM/{sample}.bam"
+        temp("output/" + projectName + "/BAM/{sample}.bam")
     shell:
         "samtools sort -@ 3 -m 4G {input} > {output}"
 
@@ -295,7 +295,7 @@ rule mark_duplicates_single:
     input:
         "output/" + projectName + "/BAM/{sample}.bam"
     output:
-        bam="output/" + projectName + "/BAM-markdups/{sample}.bam",
+        bam=temp("output/" + projectName + "/BAM-markdups/{sample}.bam"),
         metrics="output/" + projectName + "/BAM-markdups/{sample}-metrics.txt"
     run:
         batch = project['samples'][wildcards.sample]['batch']
