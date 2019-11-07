@@ -799,5 +799,8 @@
             "strand":"+",
             "name":"CaSYA1"
         }
+    },
+    "MLST_sets":{
+        "Bougnoux_JCM_2002":["MLST_1","MLST_2","MLST_3","MLST_4","MLST_5","MLST_6"]
     }
 }

@@ -541,6 +541,23 @@ rule gene_interval_consensus:
             print("ERROR: bcftools version is " + str(bcftools_version))
             print("Make sure bcftools has version >= 1.9. Earlier versions will silently refuse to output ambiguous IUPAC codes")
 
+def MLST_concat_input(wildcards):
+    MLST_set = wildcards.MLST_set
+    regions = project["MLST_sets"][MLST_set]
+    sample = wildcards.sample
+    return ["output/" + projectName + "/region_consensus_fasta/" + region + "/" + sample + ".fasta" for region in regions]
+
+rule MLST_concat:
+    input:
+        unpack(MLST_concat_input)
+    output:
+        "output/" + projectName + "/MLST_consensus_concat/{MLST_set}/{sample}.fasta"
+    run:
+        regions = project["MLST_sets"][wildcards.MLST_set]
+        input_file_list = ["output/" + projectName + "/region_consensus_fasta/" + region + "/" + wildcards.sample + ".fasta" for region in regions]
+        cmd = "cat " + " ".join(input_file_list) + " | grep -v '^>' | cat <(echo '>{wildcards.sample}') - | seqkit seq -w50 > {output}"
+        shell(cmd)
+
 #extractHAIRS doesn't like it where you have more than two alleles - even if only two of them occur in each sample!
 rule trim_gene_vcf:
     input:
