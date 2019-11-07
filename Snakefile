@@ -4,6 +4,7 @@ import json
 from snakemake.remote.HTTP import RemoteProvider as HTTPRemoteProvider
 from Bio.Seq import Seq
 HTTP = HTTPRemoteProvider()
+import subprocess
 
 configfile: "config.json"
 
@@ -521,9 +522,20 @@ rule gene_interval_consensus:
         index="output/" + projectName + "/region_VCF/{region}/{sample}.vcf.gz.tbi"
     output:
         "output/" + projectName + "/region_consensus_fasta/{region}/{sample}.fasta"
-    shell:
-        'bcftools consensus -s {wildcards.sample} --iupac-codes ' + 
-        '-f {input.ref} {input.vcf} > {output}'
+    run:
+        region = wildcards.region
+        sample = wildcards.sample
+        chrom = project["regions"][region]["chromosome"]
+        start = str(project["regions"][region]["start"]) 
+        end = str(project["regions"][region]["end"]) 
+        interval = chrom + ":" + start + "-" + end
+        cmd = "samtools faidx {input.ref} " + interval + " | bcftools consensus {input.vcf} --iupac-codes --sample " + sample +  " -o {output}"
+        bcftools_version = float(subprocess.getoutput("bcftools --version | head -n 1 | cut -d $' ' -f2"))
+        if bcftools_version >= 1.9:
+            shell(cmd)
+        else:
+            print("ERROR: bcftools version is " + str(bcftools_version))
+            print("Make sure bcftools has version >= 1.9. Earlier versions will silently refuse to output ambiguous IUPAC codes")
 
 #extractHAIRS doesn't like it where you have more than two alleles - even if only two of them occur in each sample!
 rule trim_gene_vcf:
