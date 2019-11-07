@@ -528,8 +528,12 @@ rule gene_interval_consensus:
         chrom = project["regions"][region]["chromosome"]
         start = str(project["regions"][region]["start"]) 
         end = str(project["regions"][region]["end"]) 
+        strand = project["regions"][region]["strand"]
         interval = chrom + ":" + start + "-" + end
-        cmd = "samtools faidx {input.ref} " + interval + " | bcftools consensus {input.vcf} --iupac-codes --sample " + sample +  " -o {output}"
+        if strand == "+":
+            cmd = "samtools faidx {input.ref} " + interval + " | bcftools consensus {input.vcf} --iupac-codes --sample " + sample +  " -o {output}"
+        else:
+            cmd =  "samtools faidx {input.ref} " + interval + " | bcftools consensus {input.vcf} --iupac-codes --sample " + sample +  " | seqkit seq -r -p > {output}"
         bcftools_version = float(subprocess.getoutput("bcftools --version | head -n 1 | cut -d $' ' -f2"))
         if bcftools_version >= 1.9:
             shell(cmd)
