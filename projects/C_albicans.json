@@ -164,7 +164,8 @@
             ],
             "Site":"Reference strain",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"1"
         },
         "UCRI0065":{
             "batch":"batch1",
@@ -176,7 +177,8 @@
             ],
             "Site":"UC patient",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
         },
         "UCRI0092":{
             "batch":"batch1",
@@ -188,7 +190,8 @@
             ],
             "Site":"UC patient",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
         },
         "UCRI0131":{
             "batch":"batch1",
@@ -200,7 +203,9 @@
             ],
             "Site":"UC patient",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
+
         },
         "UCRI0183":{
             "batch":"batch1",
@@ -212,7 +217,9 @@
             ],
             "Site":"UC patient",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
+
         },
         "RI0103B":{
             "batch":"batch2",
@@ -224,7 +231,9 @@
             ],
             "Site":"Healthy control",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
+
         },
         "RI0107A":{
             "batch":"batch2",
@@ -236,7 +245,9 @@
             ],
             "Site":"UC patient",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
+
         },
         "RI0110A":{
             "batch":"batch2",
@@ -248,7 +259,8 @@
             ],
             "Site":"UC patient",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
         },
         "RI0124A":{
             "batch":"batch2",
@@ -260,7 +272,8 @@
             ],
             "Site":"CD patient",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
         },
         "RI0167A":{
             "batch":"batch2",
@@ -272,7 +285,8 @@
             ],
             "Site":"Healthy control",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
         },
         "RI0189A":{
             "batch":"batch2",
@@ -284,7 +298,8 @@
             ],
             "Site":"Healthy control",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
         },
         "RI0236A":{
             "batch":"batch2",
@@ -296,7 +311,8 @@
             ],
             "Site":"Healthy control",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
         },
         "RI0248A":{
             "batch":"batch2",
@@ -308,7 +324,8 @@
             ],
             "Site":"UC patient",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
         },
         "RI0256A":{
             "batch":"batch2",
@@ -320,7 +337,8 @@
             ],
             "Site":"Healthy control",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
         },
         "RI0257A":{
             "batch":"batch2",
@@ -332,7 +350,8 @@
             ],
             "Site":"UC patient",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
         },
         "RI0266A":{
             "batch":"batch2",
@@ -344,7 +363,8 @@
             ],
             "Site":"UC patient",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
         },
         "RI0271A":{
             "batch":"batch2",
@@ -356,7 +376,8 @@
             ],
             "Site":"UC patient",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
         },
         "RI0314A":{
             "batch":"batch2",
@@ -368,7 +389,8 @@
             ],
             "Site":"UC patient",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
         },
         "RI0331A":{
             "batch":"batch2",
@@ -380,7 +402,8 @@
             ],
             "Site":"Healthy control",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
         },
         "RI0358A":{
             "batch":"batch2",
@@ -392,7 +415,8 @@
             ],
             "Site":"Healthy control",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
         },
         "RI0376A":{
             "batch":"batch2",
@@ -404,7 +428,8 @@
             ],
             "Site":"Healthy control",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
         },
         "RI0624A":{
             "batch":"batch2",
@@ -416,245 +441,280 @@
             ],
             "Site":"UC patient",
             "Region":"?",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"NC"
         },
         "CEC3682":{
             "batch":"CEC3682",
             "SRA":"SRR6669866",
             "Site":"Blood",
             "Region":"France",
-            "Clade_MLST":"1"
+            "Clade_MLST":"1",
+            "Ropars_SNP_cluster":"1"
         },
         "CEC3531":{
             "batch":"CEC3531",
             "SRA":"SRR6669849",
             "Site":"Mouth",
             "Region":"France",
-            "Clade_MLST":"2"
+            "Clade_MLST":"2",
+            "Ropars_SNP_cluster":"2"
         },
         "CEC3532":{
             "batch":"CEC3532",
             "SRA":"SRR6669850",
             "Site":"Mouth",
             "Region":"France",
-            "Clade_MLST":"4"
+            "Clade_MLST":"4",
+            "Ropars_SNP_cluster":"4"
         },
         "CEC3529":{
             "batch":"CEC3529",
             "SRA":"SRR6669851",
             "Site":"Mouth",
             "Region":"France",
-            "Clade_MLST":"1"
+            "Clade_MLST":"1",
+            "Ropars_SNP_cluster":"1"
         },
         "CEC3530":{
             "batch":"CEC3530",
             "SRA":"SRR6669852",
             "Site":"Mouth",
             "Region":"France",
-            "Clade_MLST":"4"
+            "Clade_MLST":"4",
+            "Ropars_SNP_cluster":"4"
         },
         "CEC4259":{
             "batch":"CEC4259",
             "SRA":"SRR6669929",
             "Site":"Skin",
             "Region":"France",
-            "Clade_MLST":"1"
+            "Clade_MLST":"1",
+            "Ropars_SNP_cluster":"1"
         },
         "CEC5019":{
             "batch":"CEC5019",
             "SRA":"SRR6670001",
             "Site":"Vagina",
             "Region":"UK",
-            "Clade_MLST":"C.africana"
+            "Clade_MLST":"C.africana",
+            "Ropars_SNP_cluster":"13"
         },
         "CEC5021":{
             "batch":"CEC5021",
             "SRA":"SRR6669999",
             "Site":"Vagina",
             "Region":"UK",
-            "Clade_MLST":"C.africana"
+            "Clade_MLST":"C.africana",
+            "Ropars_SNP_cluster":"13"
         },
         "CEC5025":{
             "batch":"CEC5025",
             "SRA":"SRR6669995",
             "Site":"Vagina",
             "Region":"UK",
-            "Clade_MLST":"C.africana"
+            "Clade_MLST":"C.africana",
+            "Ropars_SNP_cluster":"13"
         },
         "CEC3555":{
             "batch":"CEC3555",
             "SRA":"SRR6669989",
             "Site":"Blood",
             "Region":"France",
-            "Clade_MLST":"4"
+            "Clade_MLST":"4",
+            "Ropars_SNP_cluster":"NC"
         },
         "CEC4877":{
             "batch":"CEC4877",
             "SRA":"SRR6669873",
             "Site":"Vagina",
             "Region":"China",
-            "Clade_MLST":"13"
+            "Clade_MLST":"13",
+            "Ropars_SNP_cluster":"13"
         },
         "CEC4861":{
             "batch":"CEC4861",
             "SRA":"SRR6669872",
             "Site":"Vagina",
             "Region":"China",
-            "Clade_MLST":"13"
+            "Clade_MLST":"13",
+            "Ropars_SNP_cluster":"13"
         },
         "CEC4854":{
             "batch":"CEC4854",
             "SRA":"SRR6669890",
             "Site":"Vagina",
             "Region":"Italy",
-            "Clade_MLST":"13"
+            "Clade_MLST":"13",
+            "Ropars_SNP_cluster":"13"
         },
         "CEC4855":{
             "batch":"CEC4855",
             "SRA":"SRR6669885",
             "Site":"Vagina",
             "Region":"Italy",
-            "Clade_MLST":"13"
+            "Clade_MLST":"13",
+            "Ropars_SNP_cluster":"13"
         },
         "CEC5030":{
             "batch":"CEC5030",
             "SRA":"SRR6669976",
             "Site":"Vagina",
             "Region":"UK",
-            "Clade_MLST":"C.africana"
+            "Clade_MLST":"C.africana",
+            "Ropars_SNP_cluster":"13"
         },
         "CEC5029":{
             "batch":"CEC5029",
             "SRA":"SRR6669975",
             "Site":"Vagina",
             "Region":"UK",
-            "Clade_MLST":"C.africana"
+            "Clade_MLST":"C.africana",
+            "Ropars_SNP_cluster":"13"
         },
         "CEC3681":{
             "batch":"CEC3681",
             "SRA":"SRR6669865",
             "Site":"Blood",
             "Region":"France",
-            "Clade_MLST":"3"
+            "Clade_MLST":"3",
+            "Ropars_SNP_cluster":"3"
         },
         "CEC3685":{
             "batch":"CEC3685",
             "SRA":"SRR6669864",
             "Site":"Blood",
             "Region":"France",
-            "Clade_MLST":"12"
+            "Clade_MLST":"12",
+            "Ropars_SNP_cluster":"12"
         },
         "CEC3683":{
             "batch":"CEC3683",
             "SRA":"SRR6669863",
             "Site":"Blood",
             "Region":"France",
-            "Clade_MLST":"4"
+            "Clade_MLST":"4",
+            "Ropars_SNP_cluster":"4"
         },
         "CEC3686":{
             "batch":"CEC3686",
             "SRA":"SRR6669861",
             "Site":"Blood",
             "Region":"France",
-            "Clade_MLST":"12"
+            "Clade_MLST":"12",
+            "Ropars_SNP_cluster":"12"
         },
         "CEC3638":{
             "batch":"CEC3638",
             "SRA":"SRR6669899",
             "Site":"Mouth",
             "Region":"Belgium",
-            "Clade_MLST":"3"
+            "Clade_MLST":"3",
+            "Ropars_SNP_cluster":"3"
         },
         "CEC4525":{
             "batch":"CEC4525",
             "SRA":"SRR6669889",
             "Site":"Mouth",
             "Region":"France",
-            "Clade_MLST":"11"
+            "Clade_MLST":"11",
+            "Ropars_SNP_cluster":"11"
         },
         "CEC3626":{
             "batch":"CEC3626",
             "SRA":"SRR6669883",
             "Site":"Mouth",
             "Region":"Belgium",
-            "Clade_MLST":"3"
+            "Clade_MLST":"3",
+            "Ropars_SNP_cluster":"3"
         },
         "CEC3621":{
             "batch":"CEC3621",
             "SRA":"SRR6669878",
             "Site":"Vagina",
             "Region":"Brazil",
-            "Clade_MLST":"1"
+            "Clade_MLST":"1",
+            "Ropars_SNP_cluster":"1"
         },
         "CEC3622":{
             "batch":"CEC3622",
             "SRA":"SRR6669877",
             "Site":"Vagina",
             "Region":"Brazil",
-            "Clade_MLST":"8"
+            "Clade_MLST":"8",
+            "Ropars_SNP_cluster":"8"
         },
         "CEC3636":{
             "batch":"CEC3636",
             "SRA":"SRR6669876",
             "Site":"Vagina",
             "Region":"Morocco",
-            "Clade_MLST":"1"
+            "Clade_MLST":"1",
+            "Ropars_SNP_cluster":"1"
         },
         "CEC3637":{
             "batch":"CEC3637",
             "SRA":"SRR6669875",
             "Site":"Mouth",
             "Region":"Niger",
-            "Clade_MLST":"5"
+            "Clade_MLST":"5",
+            "Ropars_SNP_cluster":"3"
         },
         "CEC716":{
             "batch":"CEC716",
             "SRA":"SRR6669982",
             "Site":"Mouth",
             "Region":"France",
-            "Clade_MLST":"12"
+            "Clade_MLST":"12",
+            "Ropars_SNP_cluster":"12"
         },
         "CEC4254":{
             "batch":"CEC4254",
             "SRA":"SRR6669931",
             "Site":"Blood",
             "Region":"France",
-            "Clade_MLST":"NC"
+            "Clade_MLST":"NC",
+            "Ropars_SNP_cluster":"B"
         },
         "CEC4945":{
             "batch":"CEC4945",
             "SRA":"SRR6670003",
             "Site":"Vagina",
             "Region":"India",
-            "Clade_MLST":"13"
+            "Clade_MLST":"13",
+            "Ropars_SNP_cluster":"2"
         },
         "CEC4946":{
             "batch":"CEC4946",
             "SRA":"SRR6670002",
             "Site":"Vagina",
             "Region":"India",
-            "Clade_MLST":"13"
+            "Clade_MLST":"13",
+            "Ropars_SNP_cluster":"2"
         },
         "CEC2876":{
             "batch":"CEC2876",
             "SRA":"SRR6669853",
             "Site":"Blood",
             "Region":"South Korea",
-            "Clade_MLST":"18"
+            "Clade_MLST":"18",
+            "Ropars_SNP_cluster":"18"
         },
         "CEC2871":{
             "batch":"CEC2871",
             "SRA":"SRR6669855",
             "Site":"Blood",
             "Region":"South Korea",
-            "Clade_MLST":"18"
+            "Clade_MLST":"18",
+            "Ropars_SNP_cluster":"18"
         },
         "CEC2872":{
             "batch":"CEC2872",
             "SRA":"SRR6669856",
             "Site":"Blood",
             "Region":"South Korea",
-            "Clade_MLST":"18"
+            "Clade_MLST":"18",
+            "Ropars_SNP_cluster":"18"
         }
     },
     "exclude_from_VCF":["CEC3638"],
